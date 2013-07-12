@@ -20,7 +20,8 @@ function displayEvents(){
 		if(checkWhen(eventDate) !== 'later'){
 			desc = meta.text().trim().substring(9);
 		}
-		$('#eventContainer').append('<div class="evtItem"><h3>'+label+title.text()+'</h3><p>'+desc+'</p></div>');
+		$('#eventContainer').append('<div class="evtItem pure-g">'+label+
+			'<div class="pure-u-4-5"><h2>'+title.text()+'</h2></div><div class="pure-u-1">'+desc+'</div></div>');
 	});
 
 }
@@ -41,8 +42,16 @@ function getSignups(){
 
 function getDateLabel(str){
 
-	var todayEl = '<a class="today">TÄNÄÄ</a>';
-	var tomorrowEl = '<a class="tomorrow">HUAME</a>'; //TODO change class
+	var fiEn = {'ma' : 'Mon',
+						'ti' : 'Tue',
+						'ke' : 'Wed',
+						'to' : 'Thu',
+						'pe' : 'Fri',
+						'la' : 'Sat',
+						'su' : 'Sun'};
+
+	var todayEl = '<div class="today label pure-u"><h2>TODAY</h2></div>';
+	var tomorrowEl = '<div class="tomorrow label pure-u"><h2>TOMORROW</h2></div>';
 
 	if(checkWhen(str) === 'today'){
 		return todayEl;
@@ -51,7 +60,7 @@ function getDateLabel(str){
 		return tomorrowEl;
 	}
 	else{
-		return '<a>'+str+'</a>';
+		return '<div class="label pure-u"><h2>'+fiEn[str.substring(0,2)]+' '+str.substring(3)+'</h2></div>';
 	}
 
 }

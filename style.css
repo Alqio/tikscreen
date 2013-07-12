@@ -9,38 +9,40 @@
 body{
 	font-family: 'Ubuntu';
 	background-color: #111;
-	color: #fff;
+	color: #eee;
 }
 
 #main{
 	padding: 1em;
+	top: 10px;
 }
 
 #busContainer{
 	color: #444;
 }
 
-#eventContainer h2 {
-	font-weight: bold;
-	padding-left: 1em;
-	position: absolute;
-	top: 65px;
-	font-family: "Numans";
-	font-size: 180%;
+#eventContainer h2{
+	padding-left: 0.5em;
 }
 
-
 .clock{
+	margin: auto;
 	font-family: "Numans";
-	color: #fa8;
+	color: #eee;
 	text-align: center;
 	font-size: 180%;
 	line-height: 0.3em;
-	text-shadow: 0 0 0.66em #ff0000;
+	padding-bottom: 0.1em;
+	width: 25%;
+	
+	background : -moz-linear-gradient(bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
+	border-radius: 1em;
+
+	text-shadow: 0 0 0.66em #ffee00;
 }
 
 .logo {
-position: fixed;
+	position: fixed;
     bottom: 0; 
     right: 0;
     width: 20%; 
@@ -50,28 +52,46 @@ position: fixed;
     background-repeat: no-repeat;
 }
 
-.hidden{
-	display: none;
-}
+.title {
+	font-family: "Numans";
+	font-size: 180%;
+	text-align: center;
+	padding-bottom: 1em;
+	background : -moz-linear-gradient(top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
+	border-radius: 1em;
 
-.bold{
-	font-weight: bolder;
-}
+	text-shadow: 0 1px 0.3em #ff0000;
 
-.today{
-	color: #e00;
-	padding: 0.5em;
-	border-radius: 3px;
-	border: 0.2em solid #fff;
-}
-
-.tomorrow{
-	color: #eee;
-	padding: 0.5em;
-	border-radius: 3px;
-	border: 0.2em solid #fff;
 }
 
 .evtItem{
-	padding-bottom: 1em;
+	padding-bottom: 2em;
+}
+
+
+
+.label{
+	text-align: center;
+	width: 12em;
+	height: 3em;
+	border-radius: 4px;
+	border: 0.2em solid #fff;
+}
+
+.today{
+	font-weight: bold;
+	color: #fff;
+	font-family: "Numans";
+
+}
+
+.tomorrow{
+	color: #fff;
+	font-family: "Numans";
+}
+
+
+
+.hidden{
+	display: none;
 }
