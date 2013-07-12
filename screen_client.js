@@ -12,16 +12,19 @@ function displayEvents(){
 
 
 	$('#dummy .briefEventListing').each(function(i){
-		var title = $(this).children( '.eventTitle' );
-		var meta = $(this).children( '.eventMeta' );
-		var eventDate = meta.text().trim().substring(0, 9);
-		var label = getDateLabel(eventDate);
+		var titlerow = $(this).find( '.eventTitle' ).text().trim().split('@');
+		var meta = $(this).find( '.eventMeta' ).text().trim();
+		var title = titlerow[0];
+		var location = titlerow[1];
+		var date = meta.substring(0, 9);
+		var label = getDateLabel(date);
+		var specs = '@'+location+' ';
 		var desc = '';
-		if(checkWhen(eventDate) !== 'later'){
-			desc = meta.text().trim().substring(9);
+		if(checkWhen(date) !== 'later'){
+			desc = meta.substring(9);
 		}
-		$('#eventContainer').append('<div class="evtItem pure-g">'+label+
-			'<div class="pure-u-4-5"><h2>'+title.text()+'</h2></div><div class="pure-u-1">'+desc+'</div></div>');
+		$('#eventContainer').append('<div class="evtItem pure-g">'+label+'<div class="pure-u-4-5"><h2>'+title+
+			'</h2></div><div class="pure-u-1"><p>'+specs+'</p><p>'+desc+'</p></div></div>');
 	});
 
 }
