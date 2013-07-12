@@ -8,21 +8,35 @@
 
 body{
 	font-family: 'Ubuntu';
-	background-color: black;
-	color: white;
+	background-color: #111;
+	color: #fff;
 }
 
 #main{
 	padding: 1em;
 }
 
+#busContainer{
+	color: #444;
+}
+
+#eventContainer h2 {
+	font-weight: bold;
+	padding-left: 1em;
+	position: absolute;
+	top: 65px;
+	font-family: "Numans";
+	font-size: 180%;
+}
+
+
 .clock{
 	font-family: "Numans";
-	color: #ff8;
+	color: #fa8;
 	text-align: center;
 	font-size: 180%;
 	line-height: 0.3em;
-	text-shadow: 0 0 1em #c6ff00;
+	text-shadow: 0 0 0.66em #ff0000;
 }
 
 .logo {
@@ -45,10 +59,19 @@ position: fixed;
 }
 
 .today{
-	border-radius: 2px;
-	border: 0.1em solid #000;
+	color: #e00;
+	padding: 0.5em;
+	border-radius: 3px;
+	border: 0.2em solid #fff;
+}
 
-	background: #53B44F; /* Old browsers */
-	background: -moz-linear-gradient(left, #53B44F 0%, #000000 47%); /* FF3.6+ */
-	background: linear-gradient(to right, #53B44F 0%,#000000 47%); /* W3C */
+.tomorrow{
+	color: #eee;
+	padding: 0.5em;
+	border-radius: 3px;
+	border: 0.2em solid #fff;
+}
+
+.evtItem{
+	padding-bottom: 1em;
 }

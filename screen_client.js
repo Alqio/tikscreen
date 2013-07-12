@@ -9,10 +9,18 @@ function loadDummy(selector){
 }
 
 function displayEvents(){
+
+
 	$('#dummy .briefEventListing').each(function(i){
 		var title = $(this).children( '.eventTitle' );
 		var meta = $(this).children( '.eventMeta' );
-			$('#eventContainer').append('<div><h3>'+title.text()+'</h3></div><p>'+meta.text()+'</p>');
+		var eventDate = meta.text().trim().substring(0, 9);
+		var label = getDateLabel(eventDate);
+		var desc = '';
+		if(checkWhen(eventDate) !== 'later'){
+			desc = meta.text().trim().substring(9);
+		}
+		$('#eventContainer').append('<div class="evtItem"><h3>'+label+title.text()+'</h3><p>'+desc+'</p></div>');
 	});
 
 }
@@ -31,7 +39,44 @@ function getSignups(){
 
 }
 
-function setClockAndDate(el){
+function getDateLabel(str){
+
+	var todayEl = '<a class="today">TÄNÄÄ</a>';
+	var tomorrowEl = '<a class="tomorrow">HUAME</a>'; //TODO change class
+
+	if(checkWhen(str) === 'today'){
+		return todayEl;
+	}
+	else if(checkWhen(str) === 'tomorrow'){
+		return tomorrowEl;
+	}
+	else{
+		return '<a>'+str+'</a>';
+	}
+
+}
+
+function checkWhen(dateStr){
+
+	var dateArr = dateStr.substring(3).split('.');
+
+	var today = new Date();
+	var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+	// check if date is today
+	if(today.getDate() == dateArr[0] && (today.getMonth()+1) == dateArr[1]){
+		return "today";
+	}
+	// or tomorrow
+	else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
+		return "tomorrow";
+	}
+	else{
+		return 'later';
+	}
+}
+
+function loadClock(el){
 
 	var raw = new Date();
 	var mins = raw.getMinutes();
@@ -66,8 +111,8 @@ $(document).ready(function(){
 	var selector = './tapahtumat.html #pageWrapper';
 	loadDummy(selector);
 
-	setClockAndDate($('.clock'));
-	var timeTimer = setInterval(function(){setClockAndDate($('.clock'));}, 1000);
+	loadClock($('.clock'));
+	var timeTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
 
 });
 
