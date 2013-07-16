@@ -1,0 +1,2 @@
+#fetches tapahtumat.html every 10 mins
+*/10 * * * * wget -q -N -P ~/infoscreen/ http://tietokilta.fi/tapahtumat/

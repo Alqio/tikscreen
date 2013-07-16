@@ -25,27 +25,28 @@ body{
 
 #eventContainer{
 	font-size: 120%;
+	position: relative;
+	top: -2rem;
 }
 
 .specrow{
 	font-weight: lighter;
 	position: relative;
-	top: -0.5rem;
+	top: -0.7rem;
 }
 
 .descrow{
+	font-style: italic;
 	position: relative;
-	top: -0.5rem;
-	padding-bottom: 1em;
+	top: -0.7rem;
 }
 
 .clock{
 	font-family: "Numans";
 	color: #eee;
 	text-align: center;
-	font-size: 180%;
+	font-size: 190%;
 	line-height: 0.3em;
-	padding-bottom: 0.1em;
 	width: 25%;
 	
 	background : -moz-linear-gradient(bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
@@ -67,6 +68,7 @@ body{
 
 .title {
 	font-family: "Numans";
+	font-weight: bolder;
 	font-size: 180%;
 	text-align: center;
 	padding-bottom: 1em;
