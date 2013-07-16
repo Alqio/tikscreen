@@ -16,61 +16,46 @@ function displayEvents(){
 		var meta = $(this).find( '.eventMeta' ).text().trim();
 		var title = titlerow[0];
 		var location = titlerow[1];
-		var date = meta.substring(0, 9);
-		var label = getDateLabel(date);
-		var specs = '@'+location+' ';
+		var date = wdToEnglish(meta.substring(0, 9)); //ma xx.yy. -> Mon xx.yy.
+		var tab = '<span class="wide-space"> </span>';
+		var specs = '<i class="icon-time icon-large"></i> '+date+tab+
+		' <i class="icon-map-marker icon-large"></i> '+location+tab+
+		' <i class="icon-group icon-large"></i> XX/YY';
 		var desc = '';
+
 		if(checkWhen(date) !== 'later'){
-			desc = meta.substring(9);
+			desc = '<p class="descrow">'+meta.substring(9)+'</p>';
+			title += ' ('+ checkWhen(date)+')';
 		}
-		$('#eventContainer').append('<div class="evtItem pure-g">'+label+'<div class="pure-u-4-5"><h2>'+title+
-			'</h2></div><div class="pure-u-1"><p>'+specs+'</p><p>'+desc+'</p></div></div>');
+
+		$('#eventContainer').append('<div class="evtItem pure-g"><div class="pure-u-1"><h2>'+title+
+			'</h2></div><div class="pure-u-1"><h3 class="specrow">'+
+			specs+'</h3>'+desc+'</div></div>');
 	});
 
 }
 
-function getSignups(){
-	var signups = [];
-
-	$('#dummy .briefSignupListing').each(function(){
-		var title = $(this).children('.signupTitle').text();
-		var amount = $(this).children('.signupMeta').text().trim().substring(17);
-		var obj = {'title' : title, 'amount' : amount};
-		signups.push(obj);
-	});
-
-	return signups;
-
-}
-
-function getDateLabel(str){
+function wdToEnglish(str){
 
 	var fiEn = {'ma' : 'Mon',
-						'ti' : 'Tue',
-						'ke' : 'Wed',
-						'to' : 'Thu',
-						'pe' : 'Fri',
-						'la' : 'Sat',
-						'su' : 'Sun'};
+				'ti' : 'Tue',
+				'ke' : 'Wed',
+				'to' : 'Thu',
+				'pe' : 'Fri',
+				'la' : 'Sat',
+				'su' : 'Sun'};
 
-	var todayEl = '<div class="today label pure-u"><h2>TODAY</h2></div>';
-	var tomorrowEl = '<div class="tomorrow label pure-u"><h2>TOMORROW</h2></div>';
+	// var todayEl = '<div class="today label pure-u"><h2>TODAY</h2></div>';
+	// var tomorrowEl = '<div class="tomorrow label pure-u"><h2>TOMORROW</h2></div>';
 
-	if(checkWhen(str) === 'today'){
-		return todayEl;
-	}
-	else if(checkWhen(str) === 'tomorrow'){
-		return tomorrowEl;
-	}
-	else{
-		return '<div class="label pure-u"><h2>'+fiEn[str.substring(0,2)]+' '+str.substring(3)+'</h2></div>';
-	}
+	return fiEn[str.substring(0,2)]+' '+str.substring(3);
+
 
 }
 
 function checkWhen(dateStr){
 
-	var dateArr = dateStr.substring(3).split('.');
+	var dateArr = dateStr.substring(4).split('.');
 
 	var today = new Date();
 	var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
@@ -86,6 +71,20 @@ function checkWhen(dateStr){
 	else{
 		return 'later';
 	}
+}
+
+function getSignups(){
+	var signups = [];
+
+	$('#dummy .briefSignupListing').each(function(){
+		var title = $(this).children('.signupTitle').text();
+		var amount = $(this).children('.signupMeta').text().trim().substring(17);
+		var obj = {'title' : title, 'amount' : amount};
+		signups.push(obj);
+	});
+
+	return signups;
+
 }
 
 function loadClock(el){

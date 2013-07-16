@@ -10,6 +10,8 @@ body{
 	font-family: 'Ubuntu';
 	background-color: #111;
 	color: #eee;
+/*	height: 100%;
+	overflow: hidden;*/
 }
 
 #main{
@@ -21,12 +23,23 @@ body{
 	color: #444;
 }
 
-#eventContainer h2{
-	padding-left: 0.5em;
+#eventContainer{
+	font-size: 120%;
+}
+
+.specrow{
+	font-weight: lighter;
+	position: relative;
+	top: -0.5rem;
+}
+
+.descrow{
+	position: relative;
+	top: -0.5rem;
+	padding-bottom: 1em;
 }
 
 .clock{
-	margin: auto;
 	font-family: "Numans";
 	color: #eee;
 	text-align: center;
@@ -64,11 +77,6 @@ body{
 
 }
 
-.evtItem{
-	padding-bottom: 2em;
-}
-
-
 
 .label{
 	text-align: center;
@@ -90,7 +98,9 @@ body{
 	font-family: "Numans";
 }
 
-
+.wide-space{
+	margin-left: 1em;
+}
 
 .hidden{
 	display: none;
