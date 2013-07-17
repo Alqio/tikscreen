@@ -31,7 +31,7 @@ function displayEvents(){
 
 		var desc = '';
 		if(checkWhen(date) !== 'later'){
-			title += ' ('+ checkWhen(date)+')';
+			title += '<div class="today">' + checkWhen(date)+' </div>';
 			var time = 'All day';
 			var descPart = meta.substring(9);
 			if(date.length > 10){
@@ -63,9 +63,6 @@ function wdToEnglish(str){
 				'la' : 'Sat',
 				'su' : 'Sun'};
 
-	// var todayEl = '<div class="today label pure-u"><h2>TODAY</h2></div>';
-	// var tomorrowEl = '<div class="tomorrow label pure-u"><h2>TOMORROW</h2></div>';
-
 	return fiEn[str.substring(0,2)]+' '+str.substring(3);
 
 
@@ -80,11 +77,11 @@ function checkWhen(dateStr){
 
 	// check if date is today
 	if(today.getDate() == dateArr[0] && (today.getMonth()+1) == dateArr[1]){
-		return "today";
+		return "TODAY";
 	}
 	// or tomorrow
 	else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
-		return "tomorrow";
+		return "TOMORROW";
 	}
 	else{
 		return 'later';
@@ -141,7 +138,7 @@ function loadClock(el){
 
 $(document).ready(function(){
 
-	var selector = './tapahtumat3.html #pageWrapper';
+	var selector = './tapahtumat.html #pageWrapper';
 
 	loadDummy(selector);
 	loadClock($('.clock'));
