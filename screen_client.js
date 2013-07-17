@@ -141,11 +141,13 @@ function loadClock(el){
 
 $(document).ready(function(){
 
-	var selector = './tapahtumat.html #pageWrapper';
-	loadDummy(selector);
+	var selector = './tapahtumat3.html #pageWrapper';
 
+	loadDummy(selector);
 	loadClock($('.clock'));
+
 	var timeTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
+	var contentTimer = setInterval(function(){location.reload();}, 10*60*1000);
 
 });
 
