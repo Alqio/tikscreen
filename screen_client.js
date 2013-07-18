@@ -30,8 +30,8 @@ function displayEvents(){
 		}
 
 		var desc = '';
-		if(checkWhen(date) !== 'later'){
-			title += '<div class="today">' + checkWhen(date)+' </div>';
+		if(getLabel(date) !== 'later'){
+			title += getLabel(date);
 			var time = 'All day';
 			var descPart = meta.substring(9);
 			if(date.length > 10){
@@ -68,7 +68,7 @@ function wdToEnglish(str){
 
 }
 
-function checkWhen(dateStr){
+function getLabel(dateStr){
 
 	var dateArr = dateStr.substring(4).split('.');
 
@@ -77,11 +77,11 @@ function checkWhen(dateStr){
 
 	// check if date is today
 	if(today.getDate() == dateArr[0] && (today.getMonth()+1) == dateArr[1]){
-		return "TODAY";
+		return '<div class="labeltag today">TODAY</div>';
 	}
 	// or tomorrow
 	else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
-		return "TOMORROW";
+		return '<div class="labeltag tomorrow">TOMORROW</div>';
 	}
 	else{
 		return 'later';
@@ -138,7 +138,7 @@ function loadClock(el){
 
 $(document).ready(function(){
 
-	var selector = './tapahtumat.html #pageWrapper';
+	var selector = './tapahtumat3.html #pageWrapper';
 
 	loadDummy(selector);
 	loadClock($('.clock'));
