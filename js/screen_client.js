@@ -1,17 +1,8 @@
 
-
-function loadDummy(selector){
-
-	$('#dummy').load(selector, function(){
-		displayEvents();
-	});
-
-}
-
 function displayEvents(){
 
 
-	$('#dummy .briefEventListing').each(function(i){
+	$('#eventdummy .briefEventListing').each(function(i){
 		var titlerow = $(this).find( '.eventTitle' ).text().trim().split(' @ ');
 		var meta = $(this).find( '.eventMeta' ).text().trim();
 		var title = titlerow[0];
@@ -95,7 +86,7 @@ function getHours(str){
 function getSignups(){
 	var signups = [];
 
-	$('#dummy .briefSignupListing').each(function(){
+	$('#eventdummy .briefSignupListing').each(function(){
 		var title = $(this).children('.signupTitle').text().trim();
 		var amount = $(this).children('.signupMeta').text().trim().substring(17);
 		var obj = {'title' : title, 'amount' : amount};
@@ -135,15 +126,40 @@ function loadClock(el){
 
 }
 
+function displayBusStops(){
+
+	$('#busContainer').html('<h3>KONEMIES bus stop schedule coming soon...</h3>');
+
+}
+
 
 $(document).ready(function(){
 
-	var selector = './raw/tapahtumat3.html #pageWrapper';
+	var selector = './raw/tapahtumat.html #pageWrapper';
 
-	loadDummy(selector);
+	$('#eventdummy').load(selector, function(){
+		displayEvents();
+	});
+
+	var currentWeekday = new Date().getDay();
+
+	if(currentWeekday === 0){ //sunday
+		$('#busdummy').load(TODOselector, function(){
+			displayBusStops();
+		});
+	}
+	else if(currentWeekday === 6){ //saturday
+
+	}
+	else{ //weekdays
+
+	}
+
+	
+
 	loadClock($('.clock'));
 
-	var timeTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
+	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
 	var contentTimer = setInterval(function(){location.reload();}, 10*60*1000);
 
 });

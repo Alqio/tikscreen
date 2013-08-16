@@ -118,8 +118,8 @@ body{
 
 	background : -moz-linear-gradient(top, #fff 0%, #a71111 60%);
 
-	-moz-transform:rotate(10deg);
-	transform:rotate(10deg);
+	-moz-transform:rotate(8deg);
+	transform:rotate(8deg);
 	-moz-box-shadow:inset 0 0 0.3em #fcc;
 	box-shadow: inset 0 0 0.3em #fcc;
 }
