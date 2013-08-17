@@ -126,41 +126,105 @@ function loadClock(el){
 
 }
 
-function displayBusStops(){
+function displayBusStops(source){
 
-	$('#busContainer').html('<h3>KONEMIES bus stop schedule coming soon...</h3>');
+	var $target = $('#nwBusInfo');
+	if(source == '#busdummy2')
+		$target = $('#seBusInfo');
+
+	var now = new Date();
+	var hours = now.getHours();
+	var mins = now.getMinutes();
+
+	var times = [];
+
+	$(source).find('.stop_hour').each(function(i){
+		if ($(this).text() == hours){ //select current hour
+					
+					var minuterow = $(this).next();
+					minuterow.find('.stop_small_min').each(function(i){
+						if($(this).text() >= mins){
+							var minsLeft = parseInt($(this).text(), 10) - mins;
+							var row = '<tr>';
+							row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
+							row += '</tr>';
+							times.push(row);
+						}
+					});
+		}
+		else{ //next hours
+
+			var diff = parseInt($(this).text(), 10) - hours;
+			if(diff > 0){
+				
+				var minuterow_ = $(this).next();
+				minuterow_.find('.stop_small_min').each(function(i){
+					var minsLeft = parseInt($(this).text(), 10) + (diff*60 - mins);
+					var row = '<tr>';
+					row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
+					row += '</tr>';
+					times.push(row);
+				});
+
+			}
+
+		}
+	});
+
+	var showableTimes = 8;
+	var timetable = '<table>';
+
+	for (i = 0; i < showableTimes; i++) {
+		if(i >= times.length)
+			break;
+		timetable += times[i];
+	}
+
+	timetable += '</table>';
+
+	$target.html(timetable);
+
+}
+
+function loadBusStops(dummyEl, dirPage){
+
+	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
+
+	if(currentWeekday === 0){ //sunday
+		$(dummyEl).load(dirPage + ' #table_sun', function(){
+			displayBusStops(dummyEl);
+		});
+	}
+	else if(currentWeekday === 6){ //saturday
+		$(dummyEl).load(dirPage + ' #table_sat', function(){
+			displayBusStops(dummyEl);
+		});
+	}
+	else{ //weekdays
+		$(dummyEl).load(dirPage + ' #table_monfri', function(){
+			displayBusStops(dummyEl);
+		});
+	}
 
 }
 
 
 $(document).ready(function(){
 
-	var selector = './raw/tapahtumat.html #pageWrapper';
-
-	$('#eventdummy').load(selector, function(){
+	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
 	});
 
-	var currentWeekday = new Date().getDay();
-
-	if(currentWeekday === 0){ //sunday
-		$('#busdummy').load(TODOselector, function(){
-			displayBusStops();
-		});
-	}
-	else if(currentWeekday === 6){ //saturday
-
-	}
-	else{ //weekdays
-
-	}
-
-	
-
 	loadClock($('.clock'));
+	loadBusStops('#busdummy1', './raw/konemies_nw.html');
+	loadBusStops('#busdummy2', './raw/konemies_se.html');
 
 	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
-	var contentTimer = setInterval(function(){location.reload();}, 10*60*1000);
+	var busTimer = setInterval(function(){
+		loadBusStops('#busdummy1', './raw/konemies_nw.html');
+		loadBusStops('#busdummy2', './raw/konemies_se.html');
+	}, 30*1000);
+	var refreshTimer = setInterval(function(){location.reload();}, 10*60*1000);
 
 });
 
