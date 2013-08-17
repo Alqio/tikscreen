@@ -19,21 +19,52 @@ body{
 	padding: 0.5rem;
 }
 
+
+#busContainer{
+	font-size: 150%;
+	float: right;
+}
+
+#busContainer table{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: right;
+}
+
 #busContainer table td{
 	padding-right: 1em;
 }
 
-.busDirection{
-	color: #888;
+#nwBusInfo, #seBusInfo{
+	font-weight: bolder;
+}
+
+.busItem{
+	border-right: 0.3rem solid #333;
+	border-top: 0.3rem solid #222;
+	border-radius: 2rem;
+	background : -moz-linear-gradient(top right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);
+	padding-top: 0.1em;
+	padding-bottom: 1em;
+}
+
+.busDirection i{
+	color: #fa5;
+}
+
+.busDirection {
+	text-align: center;
+	color: #fcc;
 }
 
 #eventContainer{
 	font-size: 120%;
+	width: 60%;
 }
 
 .evtItem{
-	border-left: 0.3rem solid #666;
-	border-radius: 1rem;
+	border-left: 0.3rem solid #333;
+	border-radius: 2rem;
 	padding-left: 1rem;
 	background : -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 66%);
 }
@@ -89,7 +120,7 @@ body{
 	text-align: center;
 	padding-bottom: 1em;
 	background : -moz-linear-gradient(top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
-	border-radius: 1em;
+	border-radius: 1.5em;
 
 	text-shadow: 0 1px 0.3em #ff0000;
 

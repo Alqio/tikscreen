@@ -174,6 +174,13 @@ function displayBusStops(source){
 	var showableTimes = 8;
 	var timetable = '<table>';
 
+	if(times.length === 0){
+		timetable += '<tr><td>No more buses today :(</td></tr>';
+	}
+	else{
+		timetable += '<tr><td><u>MIN</u></td><td><u>LINE</u></td></tr>';
+	}
+
 	for (i = 0; i < showableTimes; i++) {
 		if(i >= times.length)
 			break;
