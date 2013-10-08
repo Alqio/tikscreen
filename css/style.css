@@ -23,6 +23,7 @@ body{
 #busContainer{
 	font-size: 150%;
 	float: right;
+	/*display: none; */ /*uncomment to hide bus stops*/
 }
 
 #busContainer table{
@@ -138,10 +139,10 @@ body{
 }
 
 .logo {
-	display: none;
+	opacity:0.3;
 	position: fixed;
-    bottom: -5rem; 
-    right: -5rem;
+    bottom: -6rem; 
+    right: -4rem;
     width: 25rem; 
     height: 25rem;
 	background-size: 100% 100%;
