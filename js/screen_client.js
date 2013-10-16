@@ -1,7 +1,8 @@
+var date_global = new Date();
+var hours_global = date_global.getHours();
+var minutes_global = date_global.getMinutes();
 
 function displayEvents(){
-
-
 	$('#eventdummy .briefEventListing').each(function(i){
 		var titlerow = $(this).find( '.eventTitle' ).text().trim().split(' @ ');
 		var meta = $(this).find( '.eventMeta' ).text().trim();
@@ -45,36 +46,30 @@ function displayEvents(){
 }
 
 function wdToEnglish(str){
-
 	var fiEn = {'ma' : 'Mon',
-				'ti' : 'Tue',
-				'ke' : 'Wed',
-				'to' : 'Thu',
-				'pe' : 'Fri',
-				'la' : 'Sat',
-				'su' : 'Sun'};
+		    'ti' : 'Tue',
+		    'ke' : 'Wed',
+		    'to' : 'Thu',
+		    'pe' : 'Fri',
+		    'la' : 'Sat',
+		    'su' : 'Sun'};
 
 	return fiEn[str.substring(0,2)]+' '+str.substring(3);
-
-
 }
 
 function getLabel(dateStr){
-
 	var dateArr = dateStr.substring(4).split('.');
-
-	var today = new Date();
-	var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+	var tomorrow = new Date(date_global.getTime() + 24 * 60 * 60 * 1000);
 
 	// check if date is today
-	if(today.getDate() == dateArr[0] && (today.getMonth()+1) == dateArr[1]){
+	if(date_global.getDate() == dateArr[0] && (date_global.getMonth()+1) == dateArr[1]){
 		return '<div class="labeltag today">TODAY</div>';
 	}
 	// or tomorrow
 	else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
 		return '<div class="labeltag tomorrow">TOMORROW</div>';
 	}
-	else{
+	else {
 		return 'later';
 	}
 }
@@ -98,16 +93,11 @@ function getSignups(){
 }
 
 function loadClock(el){
-
-	var raw = new Date();
-	var mins = raw.getMinutes();
-	var secs = raw.getSeconds();
+	var mins = minutes_global
 	if(mins<10)
 		mins = '0'+mins;
-	if(secs<10)
-		secs = '0'+secs;
 
-	var time = raw.getHours() + ':' + mins + ':' + secs;
+	var time = hours_global + ':' + mins;
 
 	var weekday=new Array(7);
 	weekday[0]="Sunday";
@@ -118,33 +108,26 @@ function loadClock(el){
 	weekday[5]="Friday";
 	weekday[6]="Saturday";
 
-	var wday = weekday[raw.getDay()];
+	var wday = weekday[date_global.getDay()];
 
-	var date = raw.getDate() + '.' + (raw.getMonth() + 1) + '.';
+	var date = date_global.getDate() + '.' + (date_global.getMonth() + 1) + '.';
 
 	el.html('<h1>'+time+'</h1><h3>'+wday+' '+date+'</h3>');
-
 }
 
 function displayBusStops(source){
-
 	var $target = $('#nwBusInfo');
 	if(source == '#busdummy2')
 		$target = $('#seBusInfo');
 
-	var now = new Date();
-	var hours = now.getHours();
-	var mins = now.getMinutes();
-
 	var times = [];
 
 	$(source).find('.stop_hour').each(function(i){
-		if ($(this).text() == hours){ //select current hour
-					
+		if ($(this).text() == hours_global){ //select current hour
 					var minuterow = $(this).next();
 					minuterow.find('.stop_small_min').each(function(i){
-						if($(this).text() >= mins){
-							var minsLeft = parseInt($(this).text(), 10) - mins;
+						if($(this).text() >= minutes_global){
+							var minsLeft = parseInt($(this).text(), 10) - minutes_global;
 							var row = '<tr>';
 							row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
 							row += '</tr>';
@@ -154,12 +137,12 @@ function displayBusStops(source){
 		}
 		else{ //next hours
 
-			var diff = parseInt($(this).text(), 10) - hours;
+			var diff = parseInt($(this).text(), 10) - hours_global;
 			if(diff > 0){
 				
 				var minuterow_ = $(this).next();
 				minuterow_.find('.stop_small_min').each(function(i){
-					var minsLeft = parseInt($(this).text(), 10) + (diff*60 - mins);
+					var minsLeft = parseInt($(this).text(), 10) + (diff*60 - minutes_global);
 					var row = '<tr>';
 					row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
 					row += '</tr>';
@@ -190,11 +173,9 @@ function displayBusStops(source){
 	timetable += '</table>';
 
 	$target.html(timetable);
-
 }
 
 function loadBusStops(dummyEl, dirPage){
-
 	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
 
 	if(currentWeekday === 0){ //sunday
@@ -217,25 +198,19 @@ function loadBusStops(dummyEl, dirPage){
 
 
 $(document).ready(function(){
-
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
 	});
-
+	
 	loadClock($('.clock'));
 	loadBusStops('#busdummy1', './raw/konemies_nw.html');
 	loadBusStops('#busdummy2', './raw/konemies_se.html');
 
-	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
+	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 60000);
 	var busTimer = setInterval(function(){
 		loadBusStops('#busdummy1', './raw/konemies_nw.html');
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
-	}, 30*1000);
-	var refreshTimer = setInterval(function(){location.reload();}, 10*60*1000);
+	}, 30000);
+	var refreshTimer = setInterval(function(){location.reload();}, 600000);
 
 });
-
-
-
-
-
