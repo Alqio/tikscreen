@@ -196,18 +196,20 @@ function loadBusStops(dummyEl, dirPage){
 }
 
 function displayNethack() {
-	var nethack_scores = $('#nethackdummy').text();
-	$('#nethackContainer').html('<pre>'+nethack_scores+'</pre>');
+	var nethack_log = $('#nethackdummy_log').text();
+	var nethack_scores = $('#nethackdummy_rec').text();
+	var title_1 = '<div class="nethacktitle"><p>NETHACK TOP 5<p></div>';
+	var title_2 = '<div class="nethacktitle"><p>LAST 5 GAMES<p></div>';
+	$('#nethackContainer').html(title_1+'<pre>'+nethack_scores+'</pre>'+title_2+'<pre>'+nethack_log+'</pre>');
 }
 
 $(document).ready(function(){
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
-		console.log('Updated "tapahtumat"');
 	});
-	$('#nethackdummy').load('./raw/nethack_scores.txt', function() {
+	$('#nethackdummy_log').load('./raw/nethack_log.txt');
+	$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function() {
 		displayNethack();
-		console.log('Updated "nethack"');
 	});
 
 	loadClock($('.clock'));
@@ -216,12 +218,10 @@ $(document).ready(function(){
 
 	var clockTimer = setInterval(function(){
 		loadClock($('.clock'));
-		console.log('Updated "clock"');
 	}, 1000);
 	var busTimer = setInterval(function(){
 		loadBusStops('#busdummy1', './raw/konemies_nw.html');
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
-		console.log('Updated "bus"');
 	}, 30000);
 	var refreshTimer = setInterval(function(){location.reload();}, 600000);
 
