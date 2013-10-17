@@ -1,6 +1,6 @@
 body{
 	font-family: 'sans-serif';
-	font-size: 8pt;
+	font-size: 10pt;
 	background-color: #0a0a0a;
 	color: #eee;
 	overflow: hidden;
@@ -18,8 +18,14 @@ body{
 	margin: 0 0 0 0;
 	font-size: 8pt;
 }
+#eventContainer {
+	width: 32%;
+	margin-right: 1%;
+}
 
 #busContainer{
+	width: 32%
+	margin-left: 1%;
 	float: right;
 	/*display: none; */ /*uncomment to hide bus stops*/
 }
@@ -56,8 +62,13 @@ body{
 	text-align: center;
 	color: #fcc;
 }
+h4 {
+	font-size: 12pt;
+}
 
-#eventContainer{
+h2 {
+	margin: 0 0 0 0;
+	font-size: 14pt;
 }
 
 .evtItem{
@@ -87,7 +98,6 @@ body{
 	text-shadow: 0 0 0.1em #000;
 	
 	display: inline-block;
-	margin-right: 5em;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 	float: right;
