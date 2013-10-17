@@ -38,7 +38,7 @@ function displayEvents(){
 		var specs = '<i class="icon-time icon-large"></i> '+date+tab+
 		' <i class="icon-map-marker icon-large"></i> '+location+tab+signup;
 
-		$('#eventContainer').append('<div class="evtItem pure-g"><div class="pure-u-1"><h2>	'+tab+tab+title+
+		$('#eventContainer').append('<div class="evtItem pure-g"><div class="pure-u-1"><h2>	'+title+
 			'</h2></div><div class="pure-u-1"><h3 class="specrow">'+
 			specs+'</h3>'+desc+'</div></div>');
 	});
@@ -224,5 +224,4 @@ $(document).ready(function(){
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
 	}, 30000);
 	var refreshTimer = setInterval(function(){location.reload();}, 600000);
-
 });

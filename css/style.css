@@ -1,19 +1,9 @@
-
-@font-face {
-	font-family: 'Numans', sans-serif;
-}
-@font-face {
-	font-family: 'Arvo', sans-serif;
-}
-
 body{
-	font-family: 'Numans';
-	font-size: 8pt;
+	font-family: 'sans-serif';
+	font-size: 10pt;
 	background-color: #0a0a0a;
 	color: #eee;
 	overflow: hidden;
-	background-image:url('../img/bg2.jpg');
-	background-repeat: no-repeat;
 }
 
 #main{
@@ -28,9 +18,14 @@ body{
 	margin: 0 0 0 0;
 	font-size: 10pt;
 }
+#eventContainer {
+	width: 32%;
+	margin-right: 1%;
+}
 
 #busContainer{
-	font-size: 150%;
+	width: 32%
+	margin-left: 1%;
 	float: right;
 	/*display: none; */ /*uncomment to hide bus stops*/
 }
@@ -52,7 +47,7 @@ body{
 .busItem{
 	border-right: 0.3rem solid #333;
 	border-top: 0.3rem solid #222;
-	border-radius: 2rem;
+/*	border-radius: 2rem; */
 	background : -moz-linear-gradient(top right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);
 	padding-top: 0.1em;
 	padding-bottom: 1em;
@@ -66,16 +61,18 @@ body{
 	text-align: center;
 	color: #fcc;
 }
+h4 {
+	font-size: 12pt;
+}
 
-#eventContainer{
-	font-size: 120%;
+h2 {
+	margin: 0 0 0 0;
+	font-size: 14pt;
 }
 
 .evtItem{
 	border-left: 0.3rem solid #333;
-	border-radius: 2rem;
 	padding-left: 1rem;
-	background : -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
 }
 
 .specrow{
@@ -96,40 +93,38 @@ body{
 
 .labeltag{
 	color: #eee;
-	font-family: "Arvo";
+	font-family: "monospace";
 	text-shadow: 0 0 0.1em #000;
 	
 	display: inline-block;
-	margin-left: 1em;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
+	float: right;
 
-    border-radius: 0.3em;
+/*    border-radius: 0.3em; */
 
 	background : -moz-linear-gradient(top, #fff 0%, #a71111 60%);
 
-	-moz-transform:rotate(8deg);
-	transform:rotate(8deg);
 	-moz-box-shadow:inset 0 0 0.3em #fcc;
 	box-shadow: inset 0 0 0.3em #fcc;
 }
 
 .today{
-	font-size: 90%;
+	font-size: 10pt;
 }
 
 .tomorrow{
-	font-size: 75%;
+	font-size: 10pt;
 }
 
 .nethacktitle, .title {
-	font-family: "Arvo";
+	font-family: "monospace";
 	font-weight: bolder;
-	font-size: 180%;
+	font-size: 16pt;
 	text-align: center;
 	padding-bottom: 1em;
 	background : -moz-linear-gradient(top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
-	border-radius: 1.5em;
+/*	border-radius: 1.5em; */
 
 	text-shadow: 0 1px 0.3em #ff0000;
 
@@ -137,17 +132,16 @@ body{
 
 .nethacktitle {
 	background: rgba(0, 0, 0, 0);
-	border-radius: 0;
 	padding: 0 0 0 0;
 }
 
 .clock{
 	text-align: center;
-	font-size: 190%;
+	font-size: 16pt;
 	line-height: 0.3em;
 	
 	background : -moz-linear-gradient(bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
-	border-radius: 1em;
+	/*border-radius: 1em;*/
 
 	text-shadow: 0 0 0.66em #fa5;
 }
