@@ -139,7 +139,6 @@ function displayBusStops(source){
 
 			var diff = parseInt($(this).text(), 10) - hours_global;
 			if(diff > 0){
-				
 				var minuterow_ = $(this).next();
 				minuterow_.find('.stop_small_min').each(function(i){
 					var minsLeft = parseInt($(this).text(), 10) + (diff*60 - minutes_global);
@@ -196,17 +195,24 @@ function loadBusStops(dummyEl, dirPage){
 
 }
 
+function displayNethack() {
+	var nethack_scores = $('#nethackdummy').text();
+	$('#nethackContainer').append('<pre>'+nethack_scores+'</pre>');
+}
 
 $(document).ready(function(){
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
 	});
-	
+	$('#nethackdummy').load('./raw/nethack_scores.txt', function() {
+		displayNethack();
+	});
+
 	loadClock($('.clock'));
 	loadBusStops('#busdummy1', './raw/konemies_nw.html');
 	loadBusStops('#busdummy2', './raw/konemies_se.html');
 
-	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 60000);
+	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
 	var busTimer = setInterval(function(){
 		loadBusStops('#busdummy1', './raw/konemies_nw.html');
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
