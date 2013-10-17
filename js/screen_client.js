@@ -93,11 +93,13 @@ function getSignups(){
 }
 
 function loadClock(el){
-	var mins = minutes_global
+	var clock = new Date();
+	var hours = clock.getHours();
+	var mins = clock.getMinutes();
 	if(mins<10)
 		mins = '0'+mins;
 
-	var time = hours_global + ':' + mins;
+	var time = hours + ':' + mins;
 
 	var weekday=new Array(7);
 	weekday[0]="Sunday";
@@ -108,11 +110,10 @@ function loadClock(el){
 	weekday[5]="Friday";
 	weekday[6]="Saturday";
 
-	var wday = weekday[date_global.getDay()];
+	var wday = weekday[clock.getDay()];
 
-	var date = date_global.getDate() + '.' + (date_global.getMonth() + 1) + '.';
-
-	el.html('<h1>'+time+'</h1><h3>'+wday+' '+date+'</h3>');
+	var date = clock.getDate() + '.' + (clock.getMonth() + 1) + '.';
+	$('.clock').html('<h1>'+time+'</h1><h3>'+wday+' '+date+'</h3>');
 }
 
 function displayBusStops(source){
@@ -192,30 +193,35 @@ function loadBusStops(dummyEl, dirPage){
 			displayBusStops(dummyEl);
 		});
 	}
-
 }
 
 function displayNethack() {
 	var nethack_scores = $('#nethackdummy').text();
-	$('#nethackContainer').append('<pre>'+nethack_scores+'</pre>');
+	$('#nethackContainer').html('<pre>'+nethack_scores+'</pre>');
 }
 
 $(document).ready(function(){
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
+		console.log('Updated "tapahtumat"');
 	});
 	$('#nethackdummy').load('./raw/nethack_scores.txt', function() {
 		displayNethack();
+		console.log('Updated "nethack"');
 	});
 
 	loadClock($('.clock'));
 	loadBusStops('#busdummy1', './raw/konemies_nw.html');
 	loadBusStops('#busdummy2', './raw/konemies_se.html');
 
-	var clockTimer = setInterval(function(){loadClock($('.clock'));}, 1000);
+	var clockTimer = setInterval(function(){
+		loadClock($('.clock'));
+		console.log('Updated "clock"');
+	}, 1000);
 	var busTimer = setInterval(function(){
 		loadBusStops('#busdummy1', './raw/konemies_nw.html');
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
+		console.log('Updated "bus"');
 	}, 30000);
 	var refreshTimer = setInterval(function(){location.reload();}, 600000);
 

@@ -20,6 +20,10 @@ body{
 	padding: 0.5rem;
 }
 
+#nethackContainer > pre {
+	font-size: .97em;
+}
+
 
 #busContainer{
 	font-size: 150%;
@@ -67,7 +71,7 @@ body{
 	border-left: 0.3rem solid #333;
 	border-radius: 2rem;
 	padding-left: 1rem;
-	background : -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 66%);
+	background : -moz-linear-gradient(left, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
 }
 
 .specrow{
