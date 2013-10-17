@@ -224,5 +224,4 @@ $(document).ready(function(){
 		loadBusStops('#busdummy2', './raw/konemies_se.html');
 	}, 30000);
 	var refreshTimer = setInterval(function(){location.reload();}, 600000);
-
 });
