@@ -154,7 +154,7 @@ function displayBusStops(source){
 		}
 	});
 
-	var showableTimes = 8;
+	var showableTimes = 7;
 	var timetable = '<table>';
 
 	if(times.length === 0){
