@@ -63,11 +63,11 @@ function getLabel(dateStr){
 
 	// check if date is today
 	if(date_global.getDate() == dateArr[0] && (date_global.getMonth()+1) == dateArr[1]){
-		return '<div class="labeltag today">TODAY</div>';
+		return '<div class="labeltag">TODAY</div>';
 	}
 	// or tomorrow
 	else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
-		return '<div class="labeltag tomorrow">TOMORROW</div>';
+		return '<div class="labeltag">TOMORROW</div>';
 	}
 	else {
 		return 'later';
