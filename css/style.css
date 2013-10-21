@@ -95,6 +95,7 @@ h2 {
 .labeltag{
 	color: #eee;
 	font-family: "monospace";
+	font-size: 12pt;
 	text-shadow: 0 0 0.1em #000;
 	
 	display: inline-block;
@@ -108,14 +109,6 @@ h2 {
 
 	-moz-box-shadow:inset 0 0 0.3em #fcc;
 	box-shadow: inset 0 0 0.3em #fcc;
-}
-
-.today{
-	font-size: 10pt;
-}
-
-.tomorrow{
-	font-size: 10pt;
 }
 
 .nethacktitle, .title {
