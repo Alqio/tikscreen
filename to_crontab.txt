@@ -1,2 +1,5 @@
 #fetches tapahtumat.html every 10 mins
 */10 * * * * wget -q -N -O ~/infoscreen/raw/tapahtumat.html http://tietokilta.fi/tapahtumat/
+*/10 * * * * wget -q -N -O ~/infoscreen/raw/nethack_scores.txt http://www.niksula.hut.fi/~lindhj1/nethack_scores.txt
+*/10 * * * * wget -q -N -O ~/infoscreen/raw/nethack_log.txt http://www.niksula.hut.fi/~lindhj1/nethack_log.txt
+*/10 * * * * cd /home/tikscreen/infoscreen && git pull
