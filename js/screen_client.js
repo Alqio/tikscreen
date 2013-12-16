@@ -169,21 +169,33 @@ function displayNethack() {
 }
 
 $(document).ready(function(){
+	loadClock($('.clock'));
+	loadBusStops(account.username, account.password);
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
 	});
-	$('#nethackdummy_log').load('./raw/nethack_log.txt');
-	$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function() {
-		displayNethack();
+	$('#nethackdummy_log').load('./raw/nethack_log.txt', function() {
+		$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function () {
+			displayNethack();
+		});
 	});
-
-	loadClock($('.clock'));
-	loadBusStops(account.username, account.password);
 	var clockTimer = setInterval(function(){
 		loadClock($('.clock'));
 	}, 1000);
+	var nethackTimer = setInterval(function() {
+		$('#nethackdummy_log').load('./raw/nethack_log.txt', function() {
+			$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function () {
+				displayNethack();
+			});
+		});
+	}, 60 * 1000);
 	var busTimer = setInterval(function(){
 		loadBusStops(account.username, account.password);
-	}, 60000);
-	var refreshTimer = setInterval(function(){location.reload();}, 600000);
+	}, 60 * 1000);
+	var eventTimer = setInterval(function() {
+		$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
+			displayEvents();
+		});
+	}, 60 * 60 * 1000);
+	var refreshTimer = setInterval(function(){location.reload();}, 6 * 60 * 60 * 1000);
 });
