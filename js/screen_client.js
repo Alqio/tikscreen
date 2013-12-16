@@ -116,83 +116,48 @@ function loadClock(el){
 	$('.clock').html('<h1>'+time+'</h1><h3>'+wday+' '+date+'</h3>');
 }
 
-function displayBusStops(source){
-	var $target = $('#nwBusInfo');
-	if(source == '#busdummy2')
-		$target = $('#seBusInfo');
-
-	var times = [];
-
-	$(source).find('.stop_hour').each(function(i){
-		if ($(this).text() == hours_global){ //select current hour
-					var minuterow = $(this).next();
-					minuterow.find('.stop_small_min').each(function(i){
-						if($(this).text() >= minutes_global){
-							var minsLeft = parseInt($(this).text(), 10) - minutes_global;
-							var row = '<tr>';
-							row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
-							row += '</tr>';
-							times.push(row);
-						}
-					});
-		}
-		else{ //next hours
-
-			var diff = parseInt($(this).text(), 10) - hours_global;
-			if(diff > 0){
-				var minuterow_ = $(this).next();
-				minuterow_.find('.stop_small_min').each(function(i){
-					var minsLeft = parseInt($(this).text(), 10) + (diff*60 - minutes_global);
-					var row = '<tr>';
-					row += '<td>'+ minsLeft +'</td>'+'<td>'+ $(this).next().text().substring(1)+'</td>';
-					row += '</tr>';
-					times.push(row);
-				});
-
-			}
-
-		}
-	});
-
-	var showableTimes = 7;
-	var timetable = '<table>';
-
-	if(times.length === 0){
-		timetable += '<tr><td>No more buses today :(</td></tr>';
+function cleanBusCode(long_code) {
+	var short_code = long_code.slice(1).split(" ")[0];
+	if ( short_code[0] == "0" ) {
+		short_code = short_code.slice(1);
 	}
-	else{
-		timetable += '<tr><td><u>MIN</u></td><td><u>LINE</u></td></tr>';
-	}
-
-	for (i = 0; i < showableTimes; i++) {
-		if(i >= times.length)
-			break;
-		timetable += times[i];
-	}
-
-	timetable += '</table>';
-
-	$target.html(timetable);
+	return short_code;
 }
 
-function loadBusStops(dummyEl, dirPage){
+function loadBusStops(api_account, api_password){
 	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
+	var id_konemies_se = "2222218";
+	var id_konemies_nw = "2222222";
+	var api_url = "http://api.reittiopas.fi/hsl/prod/?user="+api_account+"&pass="+api_password;
+	json_call(api_url, id_konemies_nw, "nw");
+	json_call(api_url, id_konemies_se, "se");
+}
 
-	if(currentWeekday === 0){ //sunday
-		$(dummyEl).load(dirPage + ' #table_sun', function(){
-			displayBusStops(dummyEl);
+function json_call(api_url, busstop_id, element_id) {
+	var target = $("#seBusInfo");
+	if (element_id == "nw")
+		target = $("#nwBusInfo");
+
+	$.getJSON(api_url+"&request=stop&code="+busstop_id+"&time_limit=240&dep_limit=15", function( data ) {
+		var deps = data[0].departures;
+		var times = [];
+		var timetable = "<table>";
+		$(deps).each(function( index ) {
+			var buscode = cleanBusCode(this.code);
+			var timecode = this.time;
+			var row = "<tr><td>" + timecode + "</td><td>" + buscode + "</td></tr>";
+			times.push(row);
 		});
-	}
-	else if(currentWeekday === 6){ //saturday
-		$(dummyEl).load(dirPage + ' #table_sat', function(){
-			displayBusStops(dummyEl);
-		});
-	}
-	else{ //weekdays
-		$(dummyEl).load(dirPage + ' #table_monfri', function(){
-			displayBusStops(dummyEl);
-		});
-	}
+		if (times.length == 0) {
+			timetable += "<tr><td>No more buses today ;__;</td></tr>";
+		} else {
+			timetable += "<tr><td>DEPARTURE TIME</td><td>BUS</td></tr>";
+		}
+		for (var i = 0; i < times.length; i++) {
+			timetable += times[i];
+		}
+		target.html(timetable);
+	});
 }
 
 function displayNethack() {
@@ -213,15 +178,12 @@ $(document).ready(function(){
 	});
 
 	loadClock($('.clock'));
-	loadBusStops('#busdummy1', './raw/konemies_nw.html');
-	loadBusStops('#busdummy2', './raw/konemies_se.html');
-
+	loadBusStops(account.username, account.password);
 	var clockTimer = setInterval(function(){
 		loadClock($('.clock'));
 	}, 1000);
 	var busTimer = setInterval(function(){
-		loadBusStops('#busdummy1', './raw/konemies_nw.html');
-		loadBusStops('#busdummy2', './raw/konemies_se.html');
-	}, 30000);
+		loadBusStops(account.username, account.password);
+	}, 60000);
 	var refreshTimer = setInterval(function(){location.reload();}, 600000);
 });
