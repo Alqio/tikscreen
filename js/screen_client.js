@@ -3,6 +3,7 @@ var hours_global = date_global.getHours();
 var minutes_global = date_global.getMinutes();
 
 function displayEvents(){
+	var temp_container = '';
 	$('#eventdummy .briefEventListing').each(function(i){
 		var titlerow = $(this).find( '.eventTitle' ).text().trim().split(' @ ');
 		var meta = $(this).find( '.eventMeta' ).text().trim();
@@ -38,11 +39,11 @@ function displayEvents(){
 		var specs = '<i class="icon-time icon-large"></i> '+date+tab+
 		' <i class="icon-map-marker icon-large"></i> '+location+tab+signup;
 
-		$('#eventContainer').append('<div class="evtItem pure-g"><div class="pure-u-1"><h2>	'+title+
+		temp_container += '<div class="evtItem pure-g"><div class="pure-u-1"><h2>	'+title+
 			'</h2></div><div class="pure-u-1"><h3 class="specrow">'+
-			specs+'</h3>'+desc+'</div></div>');
+			specs+'</h3>'+desc+'</div></div>';
 	});
-
+	$('#eventContainer').html(temp_container);
 }
 
 function wdToEnglish(str){
