@@ -171,7 +171,7 @@ function displayNethack() {
 
 $(document).ready(function(){
 	loadClock($('.clock'));
-	loadBusStops(account.username, account.password);
+	loadBusStops(hslaccount.username, hslaccount.passphrase);
 	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 		displayEvents();
 	});
@@ -191,12 +191,12 @@ $(document).ready(function(){
 		});
 	}, 60 * 1000);
 	var busTimer = setInterval(function(){
-		loadBusStops(account.username, account.password);
+		loadBusStops(hslaccount.username, hslaccount.passphrase);
 	}, 60 * 1000);
 	var eventTimer = setInterval(function() {
 		$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
 			displayEvents();
 		});
 	}, 60 * 60 * 1000);
-	var refreshTimer = setInterval(function(){location.reload();}, 6 * 60 * 60 * 1000);
+	var refreshTimer = setInterval(function(){location.reload();}, 6 * 60 * 60 * 1000); //6 hours
 });
