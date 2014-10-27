@@ -130,11 +130,11 @@ function loadBusStops(api_account, api_password){
 	var id_konemies_se = "2222218";
 	var id_konemies_nw = "2222222";
 	var api_url = "http://api.reittiopas.fi/hsl/prod/?user="+api_account+"&pass="+api_password;
-	json_call(api_url, id_konemies_nw, "nw");
-	json_call(api_url, id_konemies_se, "se");
+	callHSL(api_url, id_konemies_nw, "nw");
+	callHSL(api_url, id_konemies_se, "se");
 }
 
-function json_call(api_url, busstop_id, element_id) {
+function callHSL(api_url, busstop_id, element_id) {
 	var target = $("#seBusInfo");
 	if (element_id == "nw")
 		target = $("#nwBusInfo");
@@ -170,33 +170,51 @@ function displayNethack() {
 }
 
 $(document).ready(function(){
+	
 	loadClock($('.clock'));
-	loadBusStops(hslaccount.username, hslaccount.passphrase);
-	$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
-		displayEvents();
-	});
-	$('#nethackdummy_log').load('./raw/nethack_log.txt', function() {
-		$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function () {
-			displayNethack();
-		});
-	});
 	var clockTimer = setInterval(function(){
 		loadClock($('.clock'));
 	}, 1000);
-	var nethackTimer = setInterval(function() {
-		$('#nethackdummy_log').load('./raw/nethack_log.txt', function() {
-			$('#nethackdummy_rec').load('./raw/nethack_scores.txt', function () {
-				displayNethack();
-			});
-		});
-	}, 60 * 1000);
+
+	var INTERVAL_MIN = 60 * 1000; //one-minute interval
+	var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
+
+
+	//BUS STOPS
+	loadBusStops(hslaccount.username, hslaccount.passphrase);
 	var busTimer = setInterval(function(){
 		loadBusStops(hslaccount.username, hslaccount.passphrase);
-	}, 60 * 1000);
+	}, INTERVAL_MIN);
+
+
+	//NETHACK SCORES
+	var nethack_log_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_log.txt';
+	var nethack_scores_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_scores.txt';
+	$('#nethackdummy_log').load(nethack_log_url, function() {
+		$('#nethackdummy_rec').load(nethack_scores_url, function () {
+			displayNethack();
+		});});
+	var nethackTimer = setInterval(function() {
+		$('#nethackdummy_log').load(nethack_log_url, function() {
+			$('#nethackdummy_rec').load(nethack_scores_url, function () {
+				displayNethack();
+			});});
+	}, INTERVAL_MIN);
+
+
+	//TIETOKILTA EVENTS
+	var event_url = 'http://tietokilta.fi/tapahtumat #pageWrapper'; //note the selector
+	$('#eventdummy').load(event_url, function(){
+		displayEvents();
+	});
 	var eventTimer = setInterval(function() {
-		$('#eventdummy').load('./raw/tapahtumat.html #pageWrapper', function(){
+		$('#eventdummy').load(event_url, function(){
 			displayEvents();
 		});
-	}, 60 * 60 * 1000);
-	var refreshTimer = setInterval(function(){location.reload();}, 6 * 60 * 60 * 1000); //6 hours
+	}, INTERVAL_HOUR);
+
+
+	//To prevent clock shift or other crashings, reload the whole page every now and then
+	var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
+
 });
