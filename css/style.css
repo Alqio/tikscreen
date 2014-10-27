@@ -49,7 +49,7 @@ body{
 	border-right: 0.3rem solid #333;
 	border-top: 0.3rem solid #222;
 /*	border-radius: 2rem; */
-	background : -moz-linear-gradient(top right, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);
+	background : linear-gradient(to bottom left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);
 	padding-top: 0.1em;
 	padding-bottom: 1em;
 }
@@ -98,17 +98,11 @@ h2 {
 	font-family: "monospace";
 	font-size: 12pt;
 	text-shadow: 0 0 0.1em #000;
-	
 	display: inline-block;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 	float: right;
-
-/*    border-radius: 0.3em; */
-
-	background : -moz-linear-gradient(top, #fff 0%, #a71111 60%);
-
-	-moz-box-shadow:inset 0 0 0.3em #fcc;
+	background : linear-gradient(to bottom, #fff 0%, #a71111 60%);
 	box-shadow: inset 0 0 0.3em #fcc;
 }
 
@@ -118,9 +112,7 @@ h2 {
 	font-size: 16pt;
 	text-align: center;
 	padding-bottom: 1em;
-	background : -moz-linear-gradient(top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
-/*	border-radius: 1.5em; */
-
+	background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
 	text-shadow: 0 1px 0.3em #ff0000;
 
 }
@@ -134,10 +126,7 @@ h2 {
 	text-align: center;
 	font-size: 16pt;
 	line-height: 0.3em;
-	
-	background : -moz-linear-gradient(bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
-	/*border-radius: 1em;*/
-
+	background : linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
 	text-shadow: 0 0 0.66em #fa5;
 }
 
@@ -158,7 +147,7 @@ h2 {
     left: 0;
     width: 100%; 
     height: 15%;
-    background : -moz-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
+    background : linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,1) 100%);
 
 }
 

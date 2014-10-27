@@ -125,6 +125,12 @@ function cleanBusCode(long_code) {
 	return short_code;
 }
 
+function cleanTimeCode(old_code){
+	//TODO calculate remaining time instead of time of clock
+	old_code = old_code.toString();
+	return old_code.substr(0, 2) + ':' + old_code.substr(2);
+}
+
 function loadBusStops(api_account, api_password){
 	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
 	var id_konemies_se = "2222218";
@@ -145,7 +151,7 @@ function callHSL(api_url, busstop_id, element_id) {
 		var timetable = "<table>";
 		$(deps).each(function( index ) {
 			var buscode = cleanBusCode(this.code);
-			var timecode = this.time;
+			var timecode = cleanTimeCode(this.time);
 			var row = "<tr><td>" + timecode + "</td><td>" + buscode + "</td></tr>";
 			times.push(row);
 		});
