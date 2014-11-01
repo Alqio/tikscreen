@@ -93,14 +93,18 @@ function getSignups(){
 
 }
 
-function loadClock(el){
+function loadClock(){
 	var clock = new Date();
 	var hours = clock.getHours();
 	var mins = clock.getMinutes();
 	if(mins<10)
 		mins = '0'+mins;
 
-	var time = hours + ':' + mins;
+	var time;
+	if(clock.getSeconds() % 2 == 0)
+		time = hours + ':' + mins;
+	else
+	    time = hours + ' ' + mins;
 
 	var weekday=new Array(7);
 	weekday[0]="Sunday";
@@ -114,7 +118,18 @@ function loadClock(el){
 	var wday = weekday[clock.getDay()];
 
 	var date = clock.getDate() + '.' + (clock.getMonth() + 1) + '.';
-	$('.clock').html('<h1>'+time+'</h1><h3>'+wday+' '+date+'</h3>');
+	$('#clockDisp').text(time);
+	$('#dateDisp').text(wday+' '+date);
+}
+
+function loadWeather(url, el){
+
+	$('#weatherdummy').load(url+' '+el, function(data) {
+		var temperature = $('#weatherdummy').text().split(':')[1].split(',')[0];
+		$('#weather').text(temperature);
+	});
+
+
 }
 
 function cleanBusCode(long_code) {
@@ -146,7 +161,7 @@ function callHSL(api_url, busstop_id, element_id) {
 		target = $("#nwBusInfo");
 
     var TIME_LIMIT = "240"; //max minutes to future
-	var DEP_LIMIT = "10"; //max number of departures to fetch
+	var DEP_LIMIT = "9"; //max number of departures to fetch
 
 	$.getJSON(api_url+"&request=stop&code="+busstop_id+"&time_limit="+TIME_LIMIT+"&dep_limit="+DEP_LIMIT, function(data) {
 		var deps = data[0].departures;
@@ -160,8 +175,6 @@ function callHSL(api_url, busstop_id, element_id) {
 		});
 		if (times.length == 0) {
 			timetable += "<tr><td>No more buses today ;__;</td></tr>";
-		} else {
-			timetable += "<tr><td>DEPARTURE TIME</td><td>BUS</td></tr>";
 		}
 		for (var i = 0; i < times.length; i++) {
 			timetable += times[i];
@@ -180,9 +193,9 @@ function displayNethack() {
 
 $(document).ready(function(){
 	
-	loadClock($('.clock'));
+	loadClock();
 	var clockTimer = setInterval(function(){
-		loadClock($('.clock'));
+		loadClock();
 	}, 1000);
 
 	var INTERVAL_MIN = 60 * 1000; //one-minute interval
@@ -208,7 +221,15 @@ $(document).ready(function(){
 			$('#nethackdummy_rec').load(nethack_scores_url, function () {
 				displayNethack();
 			});});
-	}, INTERVAL_MIN);
+	}, INTERVAL_MIN * 15);
+
+	//OUTSIDE TEMPERATURE
+	var weather_url = 'http://outside.aalto.fi/temp.html';
+	var weather_el = '#current';
+	loadWeather(weather_url, weather_el);
+	var weatherTimer = setInterval(function() {
+		loadWeather(weather_url, weather_el);
+	}, INTERVAL_MIN * 15);
 
 
 	//TIETOKILTA EVENTS
