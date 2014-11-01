@@ -1,3 +1,6 @@
+
+* {cursor: none;}
+
 body{
 	font-family: 'sans-serif';
 	font-size: 10pt;
@@ -13,6 +16,7 @@ body{
 #nethackContainer {
 	position: absolute;
 	padding: 1.5em;
+	margin-top: 3%;
 }
 
 #nethackContainer > pre {
@@ -124,9 +128,13 @@ h2 {
 	text-align: center;
 	font-size: 16pt;
 	line-height: 0.3em;
-	background : linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);
+	background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);
 	text-shadow: 0 0 0.66em #fa5;
-	box-shadow: inset 0px 15px 20px 10px black;
+	box-shadow: inset 0px 0px 70px 15px black;
+}
+
+#weather{
+	padding-left: 1em;
 }
 
 .logo {
@@ -134,8 +142,8 @@ h2 {
 	position: fixed;
     bottom: -15rem; 
     right: -7rem;
-    width: 45rem; 
-    height: 45rem;
+    width: 50rem; 
+    height: 50rem;
 	background-size: 100% 100%;
     background-image:url('../img/tiklogo.png');
 }
