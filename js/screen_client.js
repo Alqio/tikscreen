@@ -118,12 +118,11 @@ function loadClock(){
 	$('#dateDisp').text(wday+' '+date);
 }
 
-function loadWeather(url, el){
+function loadWeather(url){
 
-	$('#weatherdummy').load(url+' '+el, function(data) {
-		var tempfloat = $('#weatherdummy').text().split(':')[1];
-		var temperature = Math.round(parseFloat(tempfloat));
-		$('#weather').text(temperature + ' °C');
+	$.get(url, function(raw) {
+		var data = JSON.parse(raw);
+		$('#weather').text(Math.round(data["gent-outside-t"]) + ' °C');
 	});
 
 
@@ -221,12 +220,11 @@ $(document).ready(function(){
 	}, INTERVAL_MIN * 15);
 
 	//OUTSIDE TEMPERATURE
-	var weather_url = 'http://outside.aalto.fi/temp.html';
-	var weather_el = '#current';
-	loadWeather(weather_url, weather_el);
+	var weather_url = 'http://outside.aalto.fi/data.txt';
+	loadWeather(weather_url);
 	var weatherTimer = setInterval(function() {
-		loadWeather(weather_url, weather_el);
-	}, INTERVAL_MIN * 15);
+		loadWeather(weather_url);
+	}, INTERVAL_MIN * 5);
 
 
 	//TIETOKILTA EVENTS
