@@ -100,11 +100,7 @@ function loadClock(){
 	if(mins<10)
 		mins = '0'+mins;
 
-	var time;
-	if(clock.getSeconds() % 2 == 0)
-		time = hours + ':' + mins;
-	else
-	    time = hours + ' ' + mins;
+	var time = hours + ':' + mins;
 
 	var weekday=new Array(7);
 	weekday[0]="Sunday";
@@ -125,8 +121,9 @@ function loadClock(){
 function loadWeather(url, el){
 
 	$('#weatherdummy').load(url+' '+el, function(data) {
-		var temperature = $('#weatherdummy').text().split(':')[1].split(',')[0];
-		$('#weather').text(temperature);
+		var tempfloat = $('#weatherdummy').text().split(':')[1];
+		var temperature = Math.round(parseFloat(tempfloat));
+		$('#weather').text(temperature + ' °C');
 	});
 
 
