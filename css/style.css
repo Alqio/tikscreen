@@ -1,5 +1,5 @@
-/*
-* {cursor: none;}*/
+
+* {cursor: none;}
 
 body{
 	font-family: 'sans-serif';
@@ -117,12 +117,6 @@ h2 {
 	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);*/
 	text-shadow: 0 1px 0.3em #ff0000;
 
-}
-
-.nethacktitle {
-	/*background: rgba(0, 0, 0, 0);
-	padding: 0 0 0 0; */
-	border: none;
 }
 
 .clock{
