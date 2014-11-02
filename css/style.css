@@ -1,5 +1,5 @@
-
-* {cursor: none;}
+/*
+* {cursor: none;}*/
 
 body{
 	font-family: 'sans-serif';
@@ -120,17 +120,30 @@ h2 {
 }
 
 .nethacktitle {
-	background: rgba(0, 0, 0, 0);
-	padding: 0 0 0 0;
+	/*background: rgba(0, 0, 0, 0);
+	padding: 0 0 0 0; */
+	border: none;
 }
 
 .clock{
 	text-align: center;
 	font-size: 16pt;
 	line-height: 0.3em;
-	background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);
+	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);*/
+	background: #210;
 	text-shadow: 0 0 0.66em #fa5;
-	box-shadow: inset 0px 0px 70px 15px black;
+	box-shadow: inset 0px 0px 70px 25px black;
+	border-left: 1px solid #410;
+	/*border-bottom: 1px solid #410;*/
+	border-right: 1px solid #410;
+	border-radius: 50px;
+	-webkit-animation: 1s clockpulse infinite;
+}
+
+@-webkit-keyframes clockpulse {
+    0%   {border: 1px solid #410;}
+    15%  {border: 1px solid #a50;}
+    75% {border: 1px solid #410;}
 }
 
 #weather{
