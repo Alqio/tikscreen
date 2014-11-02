@@ -158,7 +158,7 @@ function callHSL(api_url, busstop_id, element_id) {
 		target = $("#nwBusInfo");
 
     var TIME_LIMIT = "240"; //max minutes to future
-	var DEP_LIMIT = "9"; //max number of departures to fetch
+	var DEP_LIMIT = "10"; //max number of departures to fetch
 
 	$.getJSON(api_url+"&request=stop&code="+busstop_id+"&time_limit="+TIME_LIMIT+"&dep_limit="+DEP_LIMIT, function(data) {
 		var deps = data[0].departures;

@@ -52,8 +52,8 @@ body{
 
 .busItem{
 	/*background : linear-gradient(to bottom left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);*/
-	padding-top: 0.1em;
-	padding-bottom: 1em;
+	/*padding-top: 0.1em;*/
+	padding-bottom: 1.5em;
 }
 
 .busDirection i{
@@ -65,8 +65,10 @@ body{
 	text-align: center;
 	color: #fcc;
 }
-h4 {
+.busItem h4 {
 	font-size: 12pt;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 h2 {
@@ -113,7 +115,7 @@ h2 {
 	font-weight: bolder;
 	font-size: 20pt;
 	text-align: center;
-	margin-top: 1em;
+	/*margin-top: 1em;*/
 	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);*/
 	text-shadow: 0 1px 0.3em #ff0000;
 
