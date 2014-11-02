@@ -124,9 +124,9 @@ h2 {
 	font-size: 16pt;
 	line-height: 0.3em;
 	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);*/
-	background: #210;
+	background: #320;
 	text-shadow: 0 0 0.66em #fa5;
-	box-shadow: inset 0px 0px 70px 25px black;
+	box-shadow: inset 0px 0px 70px 22px black;
 	border-left: 1px solid #410;
 	/*border-bottom: 1px solid #410;*/
 	border-right: 1px solid #410;
