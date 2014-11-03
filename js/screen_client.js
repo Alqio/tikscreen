@@ -1,4 +1,4 @@
-var date_global = new Date();
+//var date_global = new Date();
 var vituttaa_amount = 0;
 
 function displayEvents(){
@@ -58,11 +58,12 @@ function wdToEnglish(str){
 }
 
 function getLabel(dateStr){
+	var now = new Date();
 	var dateArr = dateStr.substring(4).split('.');
-	var tomorrow = new Date(date_global.getTime() + 24 * 60 * 60 * 1000);
+	var tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
 	// check if date is today
-	if(date_global.getDate() == dateArr[0] && (date_global.getMonth()+1) == dateArr[1]){
+	if(now.getDate() == dateArr[0] && (now.getMonth()+1) == dateArr[1]){
 		return '<div class="labeltag">TODAY</div>';
 	}
 	// or tomorrow
@@ -191,13 +192,19 @@ function displayNethack() {
 	$('#nethackContainer').html(title_1+'<pre>'+nethack_scores+'</pre>'+title_2+'<pre>'+nethack_log+'</pre>');
 }
 
-function displayVituttaa(url){
+function displayVituttaa(init){
 
 	$('#vituttaadummy').load(getVituttaaUrl(), function(){
 		
-		var msgs = $("a:contains('[Vituttaa]')");
+		var msgs = $("#vituttaadummy a:contains('[Vituttaa]')");
 		//check if there are new messages
 		if (msgs.length == vituttaa_amount){
+			$('#vituttaabulletin').hide();
+			return;
+		}
+		//also abort if first update after page reload
+		else if(init){ 
+			vituttaa_amount = msgs.length;
 			$('#vituttaabulletin').hide();
 			return;
 		}
@@ -244,8 +251,6 @@ $(document).ready(function(){
 	var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
 
 
-
-
 	//BUS STOPS
 	loadBusStops(hslaccount.username, hslaccount.passphrase);
 	var busTimer = setInterval(function(){
@@ -267,6 +272,7 @@ $(document).ready(function(){
 			});});
 	}, INTERVAL_MIN * 15);
 
+
 	//OUTSIDE TEMPERATURE
 	var weather_url = 'http://outside.aalto.fi/data.txt';
 	loadWeather(weather_url);
@@ -274,11 +280,12 @@ $(document).ready(function(){
 		loadWeather(weather_url);
 	}, INTERVAL_MIN * 5);
 
+
 	//VITUTTAA MAILING LIST BULLETIN
-	displayVituttaa();
+	displayVituttaa(true);
 	var vituttaaTimer = setInterval(function(){
-		displayVituttaa();
-	}, INTERVAL_MIN*10);
+		displayVituttaa(false);
+	}, INTERVAL_MIN*15);
 
 
 	//TIETOKILTA EVENTS
@@ -293,7 +300,7 @@ $(document).ready(function(){
 	}, INTERVAL_HOUR);
 
 
-	//To prevent clock shift or other crashings, reload the whole page every now and then
+	//To prevent weird behavior, reload the whole page every now and then
 	var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
 
 });
