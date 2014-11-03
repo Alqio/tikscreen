@@ -137,9 +137,14 @@ function cleanBusCode(long_code) {
 }
 
 function cleanTimeCode(old_code){
+	
 	//TODO calculate remaining time instead of time of clock
 	old_code = old_code.toString();
-	return old_code.substr(0, 2) + ':' + old_code.substr(2);
+	
+	if(old_code.length < 4)
+		old_code = '0'+old_code;
+
+	return old_code.substr(0, 2)%24 + ':' + old_code.substr(2);
 }
 
 function loadBusStops(api_account, api_password){
