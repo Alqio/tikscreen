@@ -1,6 +1,5 @@
 var date_global = new Date();
-var hours_global = date_global.getHours();
-var minutes_global = date_global.getMinutes();
+var vituttaa_amount = 0;
 
 function displayEvents(){
 	var temp_container = '';
@@ -192,6 +191,48 @@ function displayNethack() {
 	$('#nethackContainer').html(title_1+'<pre>'+nethack_scores+'</pre>'+title_2+'<pre>'+nethack_log+'</pre>');
 }
 
+function displayVituttaa(url){
+
+	$('#vituttaadummy').load(getVituttaaUrl(), function(){
+		
+		var msgs = $("a:contains('[Vituttaa]')");
+		//check if there are new messages
+		if (msgs.length == vituttaa_amount){
+			$('#vituttaabulletin').hide();
+			return;
+		}
+
+		$('#vituttaabulletin').show();
+
+		vituttaa_amount = msgs.length;
+
+		var msglink = msgs.last().attr('href');
+		var subj = msgs.last().text().split('[Vituttaa]')[1].trim();
+
+		$('#vituttaadummy').load(getVituttaaUrl()+msglink, function(){
+			var bod = $('#vituttaadummy pre').first().text();
+			$('#vituttaa_msg').html('<h3>'+subj+'</h3><pre>'+bod+'</pre>');
+		});
+
+	});
+
+}
+
+function getVituttaaUrl(){
+
+	var monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+	var d = new Date();
+    var y = d.getFullYear();
+    var m = monthNames[d.getMonth()];
+
+	var base = 'http://list.tietokilta.fi/pipermail/vituttaa/';
+	var currentymonth = y+'-'+m+'/';
+
+	return base+currentymonth;
+
+}
+
 $(document).ready(function(){
 	
 	loadClock();
@@ -201,6 +242,8 @@ $(document).ready(function(){
 
 	var INTERVAL_MIN = 60 * 1000; //one-minute interval
 	var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
+
+
 
 
 	//BUS STOPS
@@ -230,6 +273,12 @@ $(document).ready(function(){
 	var weatherTimer = setInterval(function() {
 		loadWeather(weather_url);
 	}, INTERVAL_MIN * 5);
+
+	//VITUTTAA MAILING LIST BULLETIN
+	displayVituttaa();
+	var vituttaaTimer = setInterval(function(){
+		displayVituttaa();
+	}, INTERVAL_MIN*10);
 
 
 	//TIETOKILTA EVENTS
