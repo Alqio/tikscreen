@@ -282,8 +282,8 @@ function loadTikplay(url){
 		else{
 			$('#tikplay').show();
 			//now playing
-			$('#np_info').html('<b><pre></pre></b>');
-			$('#np_info pre').text(songArr[0].artist + ' - ' +songArr[0].title);
+			$('#np_info').html('<b><pre id="nowplay"></pre></b>');
+			$('#nowplay').text(songArr[0].artist + ' - ' +songArr[0].title);
 			//more songs in queue
 			if(songArr.length > 1){
 				for(var i=1; i < songArr.length; i++){
