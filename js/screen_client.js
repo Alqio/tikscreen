@@ -269,8 +269,8 @@ function getSodexoUrl(){
 
 function loadTikplay(url){
 
-	var npLabel = '<h3><i>NOW PLAYING</i></h3>';
-	var nextLabel = '<h3><i>NEXT UP</i></h3>';
+	//var npLabel = '<h3><i>NOW PLAYING</i></h3>';
+	//var nextLabel = '<h3><i>NEXT UP</i></h3>';
 
 	$.get(url, function(data) {
 
@@ -281,22 +281,15 @@ function loadTikplay(url){
 		}
 		else{
 			$('#tikplay').show();
-			
 			//now playing
-			var now = '<b><pre>' 
-			now += songArr[0].artist + ' - ';
-			now += songArr[0].title;
-			now += '</pre></b>';
-			$('#np_info').html(now)
-
+			$('#np_info').html('<b><pre></pre></b>');
+			$('#np_info pre').text(songArr[0].artist + ' - ' +songArr[0].title);
 			//more songs in queue
 			if(songArr.length > 1){
 				for(var i=1; i < songArr.length; i++){
-					var nex = '<pre>'
-					nex += songArr[i].artist + ' - ';
-					nex += songArr[i].title;
-					nex += '</pre>';
-					$('#np_info').append(nex);
+					$('#np_info').append('<pre></pre>');
+					var next = songArr[i].artist + ' - ' + songArr[i].title;
+					$('#np_info pre').last().text(next);
 				}
 			}
 		}
