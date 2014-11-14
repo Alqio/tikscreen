@@ -332,7 +332,7 @@ $(document).ready(function(){
 	loadTikplay(tikplay_url);
 	var tikplayTimer = setInterval(function(){
 		loadTikplay(tikplay_url);
-	}, 15 * 1000); // every 15 seconds
+	}, 10 * 1000); // every 10 seconds TODO: dynamically change this based on recent activity
 
 
 	//SODEXO TODAY'S MENU
