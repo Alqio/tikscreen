@@ -240,6 +240,75 @@ function getVituttaaUrl(){
 
 }
 
+function loadSodexo(url){
+
+	$.get(url, function(data) {
+		for(var i=0; i < data.courses.length; i++){
+			var entry =  '<div class="sodexoItem">';
+			entry += '<h2>'+data.courses[i].title_fi+'</h2>';
+			entry += '<h2>'+data.courses[i].title_en+'</h2>';
+			entry += '</div>'
+			$('#sodexoContainer').append(entry);
+		}
+
+	});
+
+}
+
+function getSodexoUrl(){
+
+	var base = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
+	var d = new Date();
+    var y = d.getFullYear();
+    var m = d.getMonth() +1;
+    var day = d.getDate();
+    
+    return base + y+'/'+m+'/'+day+'/fi';
+
+}
+
+function loadTikplay(url){
+
+	var npLabel = '<h3><i>NOW PLAYING</i></h3>';
+	var nextLabel = '<h3><i>NEXT UP</i></h3>';
+
+	$.get(url, function(data) {
+
+		var songArr = data.text;
+
+		if(songArr.length === 0){
+			$('#tikplay').hide();
+		}
+		else{
+			$('#tikplay').show();
+			
+			//now playing
+			var now = '<pre>' 
+			now += songArr[0].artist + ' - ';
+			now += songArr[0].title;
+			now += '</pre>';
+			$('#np_info').html(npLabel+now)
+
+			//more songs in queue
+			if(songArr.length > 1){
+				$('#np_info').append(nextLabel);
+				for(var i=1; i < songArr.length; i++){
+					var nex = '<pre>'
+					nex += songArr[i].artist + ' - ';
+					nex += songArr[i].title;
+					nex += '</pre>';
+					$('#np_info').append(nex);
+				}
+			}
+		}
+
+	});
+
+
+
+
+}
+
 $(document).ready(function(){
 	
 	loadClock();
@@ -257,8 +326,22 @@ $(document).ready(function(){
 		loadBusStops(hslaccount.username, hslaccount.passphrase);
 	}, INTERVAL_MIN);
 
+	//TIKPLAY QUEUE
+	$('#tikplay').hide();
+	var tikplay_url = 'http://tikradio.tt.hut.fi:5000/srv/v1.0/queue';
+	loadTikplay(tikplay_url);
+	var tikplayTimer = setInterval(function(){
+		loadTikplay(tikplay_url);
+	}, 15 * 1000); // every 15 seconds
+
+
+	//SODEXO TODAY'S MENU
+	var sodexo_url = getSodexoUrl();
+	loadSodexo(sodexo_url);
+
 
 	//NETHACK SCORES
+/*
 	var nethack_log_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_log.txt';
 	var nethack_scores_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_scores.txt';
 	$('#nethackdummy_log').load(nethack_log_url, function() {
@@ -271,7 +354,7 @@ $(document).ready(function(){
 				displayNethack();
 			});});
 	}, INTERVAL_MIN * 15);
-
+*/
 
 	//OUTSIDE TEMPERATURE
 	var weather_url = 'http://outside.aalto.fi/data.txt';
@@ -282,10 +365,12 @@ $(document).ready(function(){
 
 
 	//VITUTTAA MAILING LIST BULLETIN
+	/*
 	displayVituttaa(true);
 	var vituttaaTimer = setInterval(function(){
 		displayVituttaa(false);
 	}, INTERVAL_MIN*15);
+	*/
 
 
 	//TIETOKILTA EVENTS

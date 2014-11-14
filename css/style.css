@@ -1,5 +1,5 @@
 
-* {cursor: none;}
+/** {cursor: none;} */
 
 body{
 	font-family: 'sans-serif';
@@ -13,14 +13,30 @@ body{
 	padding: 0.5rem;
 }
 
-#nethackContainer {
-	position: absolute;
-	padding: 1.5em;
+#sodexoContainer {
+	padding-top: 1.5em;
+}
+.sodexoItem{
+	text-align: center;
+	border-top: 1px solid #300;
+	margin: 2em;
+}
+.sodexoItem h2{
+	padding-top: 1em;
+	color: #fcc;
 }
 
-#nethackContainer > pre {
+#tikplay{
+	text-align: right;
+	padding-right: 2em;
+	background : rgba(40,4,0,0.66);
+	border-radius: 20px;
+}
+
+#tikplay pre {
+	font-size: 12pt;
+	padding-bottom: 1em;
 	margin: 0 0 0 0;
-	font-size: 10pt;
 }
 #eventContainer {
 	width: 32%;
@@ -31,7 +47,6 @@ body{
 	width: 32%
 	margin-left: 1%;
 	float: right;
-	/*display: none; */ /*uncomment to hide bus stops*/
 }
 
 #busContainer table{
@@ -53,6 +68,8 @@ body{
 	/*background : linear-gradient(to bottom left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);*/
 	/*padding-top: 0.1em;*/
 	padding-bottom: 1.5em;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 .busDirection i{
@@ -132,7 +149,7 @@ h2 {
 	/*border-bottom: 1px solid #410;*/
 	border-right: 1px solid #410;
 	border-radius: 50px;
-	-webkit-animation: 1s clockpulse infinite;
+	-webkit-animation: 2s clockpulse infinite;
 }
 
 @-webkit-keyframes clockpulse {
