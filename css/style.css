@@ -23,12 +23,11 @@ body{
 }
 .sodexoItem h2{
 	padding-top: 1em;
-	color: #fcc;
+	color: #fec;
 }
 
 #tikplay{
-	text-align: right;
-	padding-right: 2em;
+	padding-left: 2em;
 	background : rgba(40,4,0,0.66);
 	border-radius: 20px;
 }
@@ -79,7 +78,7 @@ body{
 
 .busDirection {
 	text-align: center;
-	color: #fcc;
+	color: #fec;
 }
 .busItem h4 {
 	font-size: 12pt;

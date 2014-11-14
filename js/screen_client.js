@@ -283,15 +283,14 @@ function loadTikplay(url){
 			$('#tikplay').show();
 			
 			//now playing
-			var now = '<pre>' 
+			var now = '<b><pre>' 
 			now += songArr[0].artist + ' - ';
 			now += songArr[0].title;
-			now += '</pre>';
-			$('#np_info').html(npLabel+now)
+			now += '</pre></b>';
+			$('#np_info').html(now)
 
 			//more songs in queue
 			if(songArr.length > 1){
-				$('#np_info').append(nextLabel);
 				for(var i=1; i < songArr.length; i++){
 					var nex = '<pre>'
 					nex += songArr[i].artist + ' - ';
