@@ -137,10 +137,10 @@ function cleanBusCode(long_code) {
 }
 
 function cleanTimeCode(old_code){
-	
+
 	//TODO calculate remaining time instead of time of clock
 	old_code = old_code.toString();
-	
+
 	if(old_code.length < 4)
 		old_code = '0'+old_code;
 
@@ -149,11 +149,11 @@ function cleanTimeCode(old_code){
 
 function loadBusStops(api_account, api_password){
 	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
-	var id_konemies_se = "2222218";
-	var id_konemies_nw = "2222222";
+	var id_alvaraalto_hki = "2222235";
+	var id_alvaraalto_esp = "2222211";
 	var api_url = "http://api.reittiopas.fi/hsl/prod/?user="+api_account+"&pass="+api_password;
-	callHSL(api_url, id_konemies_nw, "nw");
-	callHSL(api_url, id_konemies_se, "se");
+	callHSL(api_url, id_alvaraalto_esp, "nw");
+	callHSL(api_url, id_alvaraalto_hki, "se");
 }
 
 function callHSL(api_url, busstop_id, element_id) {
@@ -195,7 +195,7 @@ function displayNethack() {
 function displayVituttaa(init){
 
 	$('#vituttaadummy').load(getVituttaaUrl(), function(){
-		
+
 		var msgs = $("#vituttaadummy a:contains('[Vituttaa]')");
 		//check if there are new messages
 		if (msgs.length == vituttaa_amount){
@@ -203,7 +203,7 @@ function displayVituttaa(init){
 			return;
 		}
 		//also abort if first update after page reload
-		else if(init){ 
+		else if(init){
 			vituttaa_amount = msgs.length;
 			$('#vituttaabulletin').hide();
 			return;
@@ -262,7 +262,7 @@ function getSodexoUrl(){
     var y = d.getFullYear();
     var m = d.getMonth() +1;
     var day = d.getDate();
-    
+
     return base + y+'/'+m+'/'+day+'/fi';
 
 }
@@ -302,7 +302,7 @@ function loadTikplay(url){
 }
 
 $(document).ready(function(){
-	
+
 	loadClock();
 	var clockTimer = setInterval(function(){
 		loadClock();
