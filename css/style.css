@@ -154,7 +154,7 @@ h2 {
 	/*border-bottom: 1px solid #410;*/
 	border-right: 1px solid #410;
 	border-radius: 50px;
-	-webkit-animation: 2s clockpulse infinite;
+	/*-webkit-animation: 2s clockpulse infinite;*/
 }
 
 @-webkit-keyframes clockpulse {
