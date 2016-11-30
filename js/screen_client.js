@@ -138,7 +138,6 @@ function cleanBusCode(long_code) {
 
 function cleanTimeCode(old_code){
 
-	//TODO calculate remaining time instead of time of clock
 	old_code = old_code.toString();
 
 	if(old_code.length < 4)
@@ -192,53 +191,6 @@ function displayNethack() {
 	$('#nethackContainer').html(title_1+'<pre>'+nethack_scores+'</pre>'+title_2+'<pre>'+nethack_log+'</pre>');
 }
 
-function displayVituttaa(init){
-
-	$('#vituttaadummy').load(getVituttaaUrl(), function(){
-
-		var msgs = $("#vituttaadummy a:contains('[Vituttaa]')");
-		//check if there are new messages
-		if (msgs.length == vituttaa_amount){
-			$('#vituttaabulletin').hide();
-			return;
-		}
-		//also abort if first update after page reload
-		else if(init){
-			vituttaa_amount = msgs.length;
-			$('#vituttaabulletin').hide();
-			return;
-		}
-
-		$('#vituttaabulletin').show();
-
-		vituttaa_amount = msgs.length;
-
-		var msglink = msgs.last().attr('href');
-		var subj = msgs.last().text().split('[Vituttaa]')[1].trim();
-
-		$('#vituttaadummy').load(getVituttaaUrl()+msglink, function(){
-			var bod = $('#vituttaadummy pre').first().text();
-			$('#vituttaa_msg').html('<h3>'+subj+'</h3><pre>'+bod+'</pre>');
-		});
-
-	});
-
-}
-
-function getVituttaaUrl(){
-
-	var monthNames = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
-	var d = new Date();
-    var y = d.getFullYear();
-    var m = monthNames[d.getMonth()];
-
-	var base = 'http://list.tietokilta.fi/pipermail/vituttaa/';
-	var currentymonth = y+'-'+m+'/';
-
-	return base+currentymonth;
-
-}
 
 function loadSodexo(url){
 
@@ -255,6 +207,8 @@ function loadSodexo(url){
 
 }
 
+
+
 function getSodexoUrl(){
 
 	var base = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
@@ -267,39 +221,7 @@ function getSodexoUrl(){
 
 }
 
-function loadTikplay(url){
 
-	//var npLabel = '<h3><i>NOW PLAYING</i></h3>';
-	//var nextLabel = '<h3><i>NEXT UP</i></h3>';
-
-	$.get(url, function(data) {
-
-		var songArr = data.text;
-
-		if(songArr.length === 0){
-			$('#tikplay').hide();
-		}
-		else{
-			$('#tikplay').show();
-			//now playing
-			$('#np_info').html('<b><pre id="nowplay"></pre></b>');
-			$('#nowplay').text(songArr[0].artist + ' - ' +songArr[0].title);
-			//more songs in queue
-			if(songArr.length > 1){
-				for(var i=1; i < songArr.length; i++){
-					$('#np_info').append('<pre></pre>');
-					var next = songArr[i].artist + ' - ' + songArr[i].title;
-					$('#np_info pre').last().text(next);
-				}
-			}
-		}
-
-	});
-
-
-
-
-}
 
 $(document).ready(function(){
 
@@ -317,14 +239,6 @@ $(document).ready(function(){
 	var busTimer = setInterval(function(){
 		loadBusStops(hslaccount.username, hslaccount.passphrase);
 	}, INTERVAL_MIN);
-
-	//TIKPLAY QUEUE
-	$('#tikplay').hide();
-	var tikplay_url = 'http://tikradio.tt.hut.fi:5000/srv/v1.0/queue';
-	loadTikplay(tikplay_url);
-	var tikplayTimer = setInterval(function(){
-		loadTikplay(tikplay_url);
-	}, 10 * 1000); // every 10 seconds TODO: dynamically change this based on recent activity
 
 
 	//SODEXO TODAY'S MENU
@@ -355,14 +269,6 @@ $(document).ready(function(){
 		loadWeather(weather_url);
 	}, INTERVAL_MIN * 5);
 
-
-	//VITUTTAA MAILING LIST BULLETIN
-	/*
-	displayVituttaa(true);
-	var vituttaaTimer = setInterval(function(){
-		displayVituttaa(false);
-	}, INTERVAL_MIN*15);
-	*/
 
 
 	//TIETOKILTA EVENTS
