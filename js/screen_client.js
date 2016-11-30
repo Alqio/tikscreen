@@ -168,6 +168,7 @@ function callHSL(api_url, busstop_id, element_id) {
 		var times = [];
 		var timetable = "<table>";
 		$(deps).each(function( index ) {
+			console.log(this);
 			var buscode = cleanBusCode(this.code);
 			var timecode = cleanTimeCode(this.time);
 			var row = "<tr><td>" + timecode + "</td><td>" + buscode + "</td></tr>";
@@ -194,20 +195,19 @@ function displayNethack() {
 
 function loadSodexo(url){
 
-	$.get(url, function(data) {
-		for(var i=0; i < data.courses.length; i++){
-			var entry =  '<div class="sodexoItem">';
-			entry += '<h2>'+data.courses[i].title_fi+'</h2>';
-			entry += '<h2>'+data.courses[i].title_en+'</h2>';
-			entry += '</div>'
-			$('#sodexoContainer').append(entry);
-		}
-
-	});
+	$.get(url, displaySodexo);
 
 }
 
-
+function displaySodexo(data){
+	for(var i=0; i < data.courses.length; i++){
+			var entry =  '<div class="sodexoItem">';
+			entry += '<h3>'+data.courses[i].title_fi;
+			entry += '<br>'+data.courses[i].title_en+'</h3>';
+			entry += '</div>';
+			$('#sodexoContainer').append(entry);
+	}
+}
 
 function getSodexoUrl(){
 
@@ -225,20 +225,25 @@ function getSodexoUrl(){
 
 $(document).ready(function(){
 
-	loadClock();
-	var clockTimer = setInterval(function(){
-		loadClock();
-	}, 1000);
-
+	var INTERVAL_SEC = 1000; //one-second interval
 	var INTERVAL_MIN = 60 * 1000; //one-minute interval
 	var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
 
+	//To prevent weird behavior, reload the whole page every now and then
+	var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
 
-	//BUS STOPS
-	loadBusStops(hslaccount.username, hslaccount.passphrase);
-	var busTimer = setInterval(function(){
-		loadBusStops(hslaccount.username, hslaccount.passphrase);
-	}, INTERVAL_MIN);
+	loadClock();
+	var clockTimer = setInterval(function(){
+		loadClock();
+	}, INTERVAL_SEC);
+
+
+	//OUTSIDE TEMPERATURE
+	var weather_url = 'http://outside.aalto.fi/data.txt';
+	loadWeather(weather_url);
+	var weatherTimer = setInterval(function() {
+		loadWeather(weather_url);
+	}, INTERVAL_MIN * 10);
 
 
 	//SODEXO TODAY'S MENU
@@ -246,28 +251,11 @@ $(document).ready(function(){
 	loadSodexo(sodexo_url);
 
 
-	//NETHACK SCORES
-/*
-	var nethack_log_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_log.txt';
-	var nethack_scores_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_scores.txt';
-	$('#nethackdummy_log').load(nethack_log_url, function() {
-		$('#nethackdummy_rec').load(nethack_scores_url, function () {
-			displayNethack();
-		});});
-	var nethackTimer = setInterval(function() {
-		$('#nethackdummy_log').load(nethack_log_url, function() {
-			$('#nethackdummy_rec').load(nethack_scores_url, function () {
-				displayNethack();
-			});});
-	}, INTERVAL_MIN * 15);
-*/
-
-	//OUTSIDE TEMPERATURE
-	var weather_url = 'http://outside.aalto.fi/data.txt';
-	loadWeather(weather_url);
-	var weatherTimer = setInterval(function() {
-		loadWeather(weather_url);
-	}, INTERVAL_MIN * 5);
+	//BUS STOPS
+	loadBusStops(hslaccount.username, hslaccount.passphrase);
+	var busTimer = setInterval(function(){
+		loadBusStops(hslaccount.username, hslaccount.passphrase);
+	}, INTERVAL_MIN);
 
 
 
@@ -283,7 +271,21 @@ $(document).ready(function(){
 	}, INTERVAL_HOUR);
 
 
-	//To prevent weird behavior, reload the whole page every now and then
-	var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
+		//NETHACK SCORES
+/*
+	var nethack_log_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_log.txt';
+	var nethack_scores_url = 'http://www.niksula.hut.fi/~lindhj1/nethack_scores.txt';
+	$('#nethackdummy_log').load(nethack_log_url, function() {
+		$('#nethackdummy_rec').load(nethack_scores_url, function () {
+			displayNethack();
+		});});
+	var nethackTimer = setInterval(function() {
+		$('#nethackdummy_log').load(nethack_log_url, function() {
+			$('#nethackdummy_rec').load(nethack_scores_url, function () {
+				displayNethack();
+			});});
+	}, INTERVAL_MIN * 15);
+*/
+
 
 });
