@@ -3,21 +3,21 @@ Tikscreen
 
 Infoscreen for Tietokilta (CS Guild) guild room.
 
-UPDATE 2016-02-26: HSL API has changed and/or my API keys have expired so bus stop info longer works
+UPDATE 2017-01-01: lipsum
 
 
 ### Deployment
 
 __DISCLAIMER: No warranties, etc.__
 
-__Also, these instructions describe a demo / client-only / very-lightweight-local-http-server solution intended to run on a browser doing nothing else than running the infoscreen. The page makes calls to multiple providers, many without decent APIs or CORS headers. For serious production environments, do not run browser with same-origin security turned off.__
+__Also, this is a locally-run demo solution intended to run client-only in a fresh browser dedicated to the infoscreen. The page makes calls to multiple providers, many without decent APIs or CORS headers. For serious production environments, do not run browser with same-origin security turned off.__
 
-1. Check that you have HSL api keys in _hslaccount.json_ (the file has been gitignored) in the same folder as _index.html_.
+Start a simple HTTP server to serve files from tikscreen folder OR open _index.html_ directly in browser with access to local files and cross-origin security disabled.
 
-2. Start a simple HTTP server to serve files from tikscreen folder or open _index.html_ directly in browser with cross-origin security disabled.
+Example in Chromium:
 
 ```
-google-chrome --disable-web-security
+chromium-browser --disable-web-security --user-data-dir=<dir> --start-fullscreen index.html
 ```
 
-3. Press F11 for fullscreen.
+The user-data-dir should be a new Chrome profile folder that is preferrably not used for anything else.
