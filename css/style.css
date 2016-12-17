@@ -19,10 +19,7 @@ body{
 .sodexoItem{
 	text-align: center;
 	/*border-top: 1px solid #300;*/
-	margin: 2em;
-}
-.sodexoItem h3{
-	padding-bottom: 1em;
+	margin: 0 0 3em 0;
 }
 
 #eventContainer {
@@ -88,6 +85,9 @@ h2 {
 	font-weight: lighter;
 	position: relative;
 	top: -0.7rem;
+}
+.specrow b{
+	font-weight: normal;
 }
 
 .specrow i{
