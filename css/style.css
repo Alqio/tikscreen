@@ -132,17 +132,10 @@ h2 {
 	background: #320;
 	text-shadow: 0 0 0.66em #fa5;
 	box-shadow: inset 0px 0px 70px 22px black;
-	border-left: 1px solid #410;
-	/*border-bottom: 1px solid #410;*/
-	border-right: 1px solid #410;
+	/*border-left: 1px solid #410;
+	border-bottom: 1px solid #410;
+	border-right: 1px solid #410; */
 	border-radius: 50px;
-	/*-webkit-animation: 2s clockpulse infinite;*/
-}
-
-@-webkit-keyframes clockpulse {
-    0%   {border: 1px solid #410;}
-    15%  {border: 1px solid #a50;}
-    75% {border: 1px solid #410;}
 }
 
 #weather{
