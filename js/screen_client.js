@@ -8,9 +8,7 @@ var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
 var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
 
 
-/*
-	"MAIN"
-*/
+// "MAIN"
 $(document).ready(function(){
 
 	// START CLOCK
@@ -34,11 +32,11 @@ $(document).ready(function(){
 
 
 	// BUS STOPS
-	loadBusStops(hslaccount.username, hslaccount.passphrase);
-	var busTimer = setInterval(function(){
-		loadBusStops(hslaccount.username, hslaccount.passphrase);
-	}, INTERVAL_MIN);
-
+	var hsl_url = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
+	loadBusStops(hsl_url);
+	/*var busTimer = setInterval(function(){
+		loadBusStops(hsl_url);
+	}, INTERVAL_MIN); */
 
 
 	// TIETOKILTA EVENTS 
@@ -100,8 +98,8 @@ function loadWeather(url){
 /*
 	SODEXO & SUBWAY MENUS
 */
-function loadSodexo(url){
-	$.get(url, function(data){
+function loadSodexo(sodexo_url){
+	$.get(sodexo_url, function(data){
 		for(var i=0; i < data.courses.length; i++){
 			var entry =  '<div class="sodexoItem">';
 			entry += '<h4>'+data.courses[i].title_fi+'</h4>';
@@ -126,18 +124,45 @@ function getSodexoUrl(){
 /*
 	BUS STOPS
 */
-function loadBusStops(api_account, api_password){
-	/* //OLD
-	var currentWeekday = new Date(new Date().getTime() - 2 * 60 * 60 * 1000 ).getDay();
-	var id_alvaraalto_hki = "2222235";
-	var id_alvaraalto_esp = "2222211";
-	var api_url = "http://api.reittiopas.fi/hsl/prod/?user="+api_account+"&pass="+api_password;
-	callHSL(api_url, id_alvaraalto_esp, "nw");
-	callHSL(api_url, id_alvaraalto_hki, "se");
-	*/
+function loadBusStops(hsl_url){
 
+	var ndeps = 5;
+	var stop_alvari1 = 'HSL:2222211';
+	var stop_alvari2 = 'HSL:2222235';
+	var deps = [];
 
+	var q1 = '{ stop(id: "'+stop_alvari1+'"){ name '
+			+'stoptimesWithoutPatterns(numberOfDepartures:'+ndeps+'){ '
+			+'scheduledArrival trip{ tripHeadsign route{shortName} }}'
+			+'}}';
 
+	$.ajax({
+		url: hsl_url,
+		headers: {"Content-Type":"application/graphql"},
+		method: "POST", 
+		data: q1
+		}).done(function(d) {
+			if(!d.data.stop) return;
+			for(var k = 0; k < d.data.stop.stoptimesWithoutPatterns.length; k++){
+				deps.push(d.data.stop.stoptimesWithoutPatterns[k]);
+			}
+			console.log(deps);
+		});
+
+}
+
+function displayBusStops(stop, deps){
+
+}
+
+function convertSecondsToClockString(s){
+	var h = (s / 3600) % 24 | 0;
+	var m = (s % 3600) / 60 | 0;
+	if(h<10)
+		h = '0' + h;
+	if(m<10)
+		m = '0' + m;
+	return h+':'+m;
 }
 
 
