@@ -28,52 +28,40 @@ body{
 }
 
 #busContainer{
-	width: 32%
+	width: 32%;
 	margin-left: 1%;
 	float: right;
 }
 
-#busContainer table{
-	margin-left: auto;
-	margin-right: auto;
-	text-align: right;
-}
-
-#busContainer table td{
-	padding-right: 1em;
-}
-
-#nwBusInfo, #seBusInfo{
-	font-weight: bolder;
-	font-size: 170%;
-}
-
-.busItem{
-	/*background : linear-gradient(to bottom left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);*/
-	/*padding-top: 0.1em;*/
-	padding-bottom: 1.5em;
-	padding-left: 1em;
-	padding-right: 1em;
-}
-
-.busDirection i{
-	color: #fa5;
-	font-size: 16pt;
-}
-
-.busDirection {
-	text-align: center;
+#busTimes {
 	color: #fec;
-}
-.busItem h4 {
-	font-size: 12pt;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	font-size: 1.4em;
+	width: 85%;
+	text-align: center;
 }
 
-h2 {
+#busTimes th{
+	padding-bottom: 0.66em;
+}
+
+#busTimes td{
+	padding-top: 0.33em;
+	font-family: monospace;
+}
+
+
+#busTimes i{
+	color: #fa5;
+}
+
+
+#eventContainer h2 {
 	margin: 0 0 0 0;
 	font-size: 14pt;
+}
+
+#sodexoContainer h4 {
+	font-size: 1.2em;
 }
 
 .evtItem{
@@ -116,10 +104,8 @@ h2 {
 .title {
 	font-family: "monospace";
 	font-weight: bolder;
-	font-size: 20pt;
+	font-size: 2em;
 	text-align: center;
-	/*margin-top: 1em;*/
-	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);*/
 	text-shadow: 0 1px 0.3em #ff0000;
 
 }
@@ -128,13 +114,9 @@ h2 {
 	text-align: center;
 	font-size: 16pt;
 	line-height: 0.3em;
-	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);*/
 	background: #320;
-	text-shadow: 0 0 0.66em #fa5;
+	text-shadow: 0 0 0.5em #fa5;
 	box-shadow: inset 0px 0px 70px 22px black;
-	/*border-left: 1px solid #410;
-	border-bottom: 1px solid #410;
-	border-right: 1px solid #410; */
 	border-radius: 50px;
 }
 

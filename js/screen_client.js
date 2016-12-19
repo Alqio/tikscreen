@@ -1,8 +1,8 @@
 
 //Define some time intervals
-var INTERVAL_SEC = 1000; //one-second interval
-var INTERVAL_MIN = 60 * 1000; //one-minute interval
-var INTERVAL_HOUR = 60 * INTERVAL_MIN; //one-hour interval
+var INTERVAL_SEC = 1000; 				//one-second interval
+var INTERVAL_MIN = 60 * 1000; 			//one-minute interval
+var INTERVAL_HOUR = 60 * INTERVAL_MIN; 	//one-hour interval
 
 //To prevent weird behavior, reload the whole page every now and then
 var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
@@ -34,9 +34,9 @@ $(document).ready(function(){
 	// BUS STOPS
 	var hsl_url = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
 	loadBusStops(hsl_url);
-	/*var busTimer = setInterval(function(){
+	var busTimer = setInterval(function(){
 		loadBusStops(hsl_url);
-	}, INTERVAL_MIN); */
+	}, INTERVAL_MIN);
 
 
 	// TIETOKILTA EVENTS 
@@ -126,36 +126,71 @@ function getSodexoUrl(){
 */
 function loadBusStops(hsl_url){
 
-	var ndeps = 5;
-	var stop_alvari1 = 'HSL:2222211';
-	var stop_alvari2 = 'HSL:2222235';
-	var deps = [];
+	var ndeps = 5; //departure times per stop
+	var s10 = 'HSL:2222235'; //Alvar Aallon puisto, Laituri 10 (Helsinkiin)
+	var s11 = 'HSL:2222211'; //Alvar Aallon puisto, Laituri 11 (Helsingistä)
+	var s12 = 'HSL:2222212'; //Kemisti, Laituri 12
+	var s13 = 'HSL:2222234'; //Kemisti, Laituri 13
 
-	var q1 = '{ stop(id: "'+stop_alvari1+'"){ name '
+	var unsortedDeps = [];
+
+	//Fetch & parse stoptimes from HSL, then sort and display
+	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13)).done(function(d1,d2,d3,d4){
+
+	    parseStopData(d1[0].data);
+	    parseStopData(d2[0].data);
+	    parseStopData(d3[0].data);
+	    parseStopData(d4[0].data);
+
+	    //TODO sort
+	    var sortedDeps;
+
+	    displayStopTimes(unsortedDeps);
+	   
+	});
+
+	function fetchStop(stopCode){
+		var query = '{ stop(id: "'+stopCode+'"){ platformCode '
 			+'stoptimesWithoutPatterns(numberOfDepartures:'+ndeps+'){ '
 			+'scheduledArrival trip{ tripHeadsign route{shortName} }}'
 			+'}}';
 
-	$.ajax({
-		url: hsl_url,
-		headers: {"Content-Type":"application/graphql"},
-		method: "POST", 
-		data: q1
-		}).done(function(d) {
-			if(!d.data.stop) return;
-			for(var k = 0; k < d.data.stop.stoptimesWithoutPatterns.length; k++){
-				deps.push(d.data.stop.stoptimesWithoutPatterns[k]);
-			}
-			console.log(deps);
+		var deferred = $.ajax({
+			url: hsl_url,
+			headers: {"Content-Type":"application/graphql"},
+			method: "POST", 
+			data: query
 		});
+		return deferred;
+	}
+
+	function parseStopData(data){
+		if(!data.stop) 
+			return;
+		for(var i = 0; i < data.stop.stoptimesWithoutPatterns.length; i++){
+			var depData = data.stop.stoptimesWithoutPatterns[i];
+				depData["platform"] = data.stop.platformCode;
+				unsortedDeps.push(depData);
+			}
+	}
+
+	function displayStopTimes(deps){
+		$('.busrow').remove();
+		for(var i = 0; i < deps.length; i++){
+			var row = '<tr class="busrow">'
+					+'<td><b>'+convertSecondsToClock(deps[i].scheduledArrival)+'</b></td>'
+					+'<td><b>'+deps[i].trip.route.shortName+'</b></td>'
+					+'<td>'+deps[i].trip.tripHeadsign+'</td>'
+					+'<td>'+deps[i].platform+'</td>'
+					+ '</tr>';
+			$('#busTimes').append(row);
+		}
+	}
 
 }
 
-function displayBusStops(stop, deps){
 
-}
-
-function convertSecondsToClockString(s){
+function convertSecondsToClock(s){
 	var h = (s / 3600) % 24 | 0;
 	var m = (s % 3600) / 60 | 0;
 	if(h<10)
@@ -164,56 +199,6 @@ function convertSecondsToClockString(s){
 		m = '0' + m;
 	return h+':'+m;
 }
-
-
-function cleanBusCode(long_code) {
-	var short_code = long_code.slice(1).split(" ")[0];
-	if ( short_code[0] == "0" ) {
-		short_code = short_code.slice(1);
-	}
-	return short_code;
-}
-
-function cleanTimeCode(old_code){
-	old_code = old_code.toString();
-	if(old_code.length < 4){
-		old_code = '0'+old_code;
-	}
-	return old_code.substr(0, 2)%24 + ':' + old_code.substr(2);
-}
-
-
-
-function callHSL(api_url, busstop_id, element_id) {
-	var target = $("#seBusInfo");
-	if (element_id == "nw")
-		target = $("#nwBusInfo");
-
-	var TIME_LIMIT = "240"; //max minutes to future
-	var DEP_LIMIT = "10"; //max number of departures to fetch
-
-	$.getJSON(api_url+"&request=stop&code="+busstop_id+"&time_limit="+TIME_LIMIT+"&dep_limit="+DEP_LIMIT, function(data) {
-		var deps = data[0].departures;
-		var times = [];
-		var timetable = "<table>";
-		$(deps).each(function( index ) {
-			//console.log(this);
-			var buscode = cleanBusCode(this.code);
-			var timecode = cleanTimeCode(this.time);
-			var row = "<tr><td>" + timecode + "</td><td>" + buscode + "</td></tr>";
-			times.push(row);
-		});
-		if (times.length == 0) {
-			timetable += "<tr><td>No more buses today ;__;</td></tr>";
-		}
-		for (var i = 0; i < times.length; i++) {
-			timetable += times[i];
-		}
-		target.html(timetable);
-	});
-}
-
-
 
 
 /*
@@ -284,12 +269,10 @@ function displayEvents(){
 
 		// check if date is today
 		if(now.getDate() == dateArr[0] && (now.getMonth()+1) == dateArr[1]){
-			// return '<div class="labeltag">TODAY</div>'; //old today-tag
 			return '<b>TODAY</b>';
 		}
 		// or tomorrow
 		else if(tomorrow.getDate() == dateArr[0] && (tomorrow.getMonth()+1) == dateArr[1]){
-			//return '<div class="labeltag">TOMORROW</div>'; //old tomorrow-tag
 			return '<b>TOMORROW</b>';
 		}
 		else {
