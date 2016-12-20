@@ -132,9 +132,9 @@ function loadBusStops(hsl_url){
 	var s12 = 'HSL:2222212'; //Kemisti, Laituri 12
 	var s13 = 'HSL:2222234'; //Kemisti, Laituri 13
 
-	var unsortedDeps = [];
+	var departures = [];
 
-	//Fetch & parse stoptimes from HSL, then sort and display
+	//Fetch & parse stoptimes from HSL, then sort departures and display
 	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13)).done(function(d1,d2,d3,d4){
 
 	    parseStopData(d1[0].data);
@@ -142,10 +142,11 @@ function loadBusStops(hsl_url){
 	    parseStopData(d3[0].data);
 	    parseStopData(d4[0].data);
 
-	    //TODO sort
-	    var sortedDeps;
+	    departures.sort(function (depA, depB){
+			return depA.scheduledArrival - depB.scheduledArrival;
+		});
 
-	    displayStopTimes(unsortedDeps);
+	    displayStopTimes(departures);
 	   
 	});
 
@@ -170,7 +171,7 @@ function loadBusStops(hsl_url){
 		for(var i = 0; i < data.stop.stoptimesWithoutPatterns.length; i++){
 			var depData = data.stop.stoptimesWithoutPatterns[i];
 				depData["platform"] = data.stop.platformCode;
-				unsortedDeps.push(depData);
+				departures.push(depData);
 			}
 	}
 

@@ -88,19 +88,6 @@ body{
 	top: -0.7rem;
 }
 
-.labeltag{
-	color: #eee;
-	font-family: "monospace";
-	font-size: 12pt;
-	text-shadow: 0 0 0.1em #000;
-	display: inline-block;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	float: right;
-	background : linear-gradient(to bottom, #351010 0%, #b60000 60%);
-	box-shadow: inset 0 0 0.3em #fcc;
-}
-
 .title {
 	font-family: "monospace";
 	font-weight: bolder;
