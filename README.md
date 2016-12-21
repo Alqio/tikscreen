@@ -3,8 +3,8 @@ Tikscreen
 
 Infoscreen for Tietokilta (CS Guild) guild room.
 
-*UPDATE 2017-01-01:* 
-Fetch bus timetables from new HSL API (Digitransit), UI updates & some refactoring
+*UPDATE 2016-12-21:* 
+Switched to the new HSL GraphQL API, also UI updates & some refactoring
 
 
 ### Deployment
@@ -23,4 +23,4 @@ The user-data-dir should be a new Chrome profile folder that is preferrably not 
 
 ### License
 
-No warranties, provided as-is, etc... Feel free to copy and use as you like, but please adhere to possible terms of the third-party APIs! The guild website is also under copyright of Tietokilta ry.
+No warranties, provided as-is, etc... Feel free to copy and use as you like, but please note possible terms and conditions of the APIs used! The guild website is also under copyright of Tietokilta ry.
