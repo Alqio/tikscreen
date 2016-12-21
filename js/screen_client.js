@@ -11,48 +11,43 @@ var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_H
 // "MAIN"
 $(document).ready(function(){
 
+	//API URLs
+	var WEATHER_URL = 'http://outside.aalto.fi/data.txt';
+	var SODEXO_BASE = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
+	var SODEXO_URL = getFullSodexoUrl(SODEXO_BASE);
+	var HSL_URL = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
+	var TIK_EVENT_URL = 'http://tietokilta.fi/tapahtumat #pageWrapper'; //note the selector
+
 	// START CLOCK
 	loadClock();
-	var clockTimer = setInterval(function(){
-		loadClock();
-	}, INTERVAL_SEC);
-
+	var clockTimer = setInterval(function(){ loadClock(); }, INTERVAL_SEC);
 
 	// OUTSIDE TEMPERATURE
-	var weather_url = 'http://outside.aalto.fi/data.txt';
-	loadWeather(weather_url);
-	var weatherTimer = setInterval(function() {
-		loadWeather(weather_url);
-	}, INTERVAL_MIN * 10);
-
+	loadWeather(WEATHER_URL);
+	var weatherTimer = setInterval(function() { loadWeather(WEATHER_URL); }, INTERVAL_MIN * 10);
 
 	// SODEXO TODAY'S MENU
-	var sodexo_url = getSodexoUrl();
-	loadSodexo(sodexo_url);
-
+	loadSodexo(SODEXO_URL); 
+		//todo: should this have an interval too? now relies on page refresh
 
 	// BUS STOPS
-	var hsl_url = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
-	loadBusStops(hsl_url);
-	var busTimer = setInterval(function(){
-		loadBusStops(hsl_url);
-	}, INTERVAL_MIN);
-
+	loadBusStops(HSL_URL);
+	var busTimer = setInterval(function(){ loadBusStops(HSL_URL); }, INTERVAL_MIN);
 
 	// TIETOKILTA EVENTS 
-	//TODO loadEvents
-	var event_url = 'http://tietokilta.fi/tapahtumat #pageWrapper'; //note the selector
-	$('#eventdummy').load(event_url, function(){
-		displayEvents();
-	});
-	var eventTimer = setInterval(function() {
-		$('#eventdummy').load(event_url, function(){
-			displayEvents();
-		});
-	}, INTERVAL_HOUR);
+	loadEvents(TIK_EVENT_URL);
+	var eventTimer = setInterval(function(){ loadEvents(TIK_EVENT_URL); }, INTERVAL_HOUR);
 
 });
 
+//construct today's sodexo url
+function getFullSodexoUrl(base){
+	var d = new Date();
+	var y = d.getFullYear();
+	var m = d.getMonth() + 1;
+	var day = d.getDate();
+	return base + y+'/'+m+'/'+day+'/fi';
+}
 
 
 /*
@@ -109,15 +104,6 @@ function loadSodexo(sodexo_url){
 		}
 	});
 
-}
-
-function getSodexoUrl(){
-	var base = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
-	var d = new Date();
-	var y = d.getFullYear();
-	var m = d.getMonth() + 1;
-	var day = d.getDate();
-	return base + y+'/'+m+'/'+day+'/fi';
 }
 
 
@@ -205,6 +191,11 @@ function convertSecondsToClock(s){
 /*
 	GUILD EVENTS
 */
+function loadEvents(event_url){
+	$('#eventdummy').load(event_url, function(){
+		displayEvents();
+	});
+}
 function displayEvents(){
 
 	var eventItems = '';
@@ -224,7 +215,7 @@ function displayEvents(){
 		var signup = '';
 		var probe = $.grep(getSignups(), function(e){ return e.title === title; });
 		if (probe.length == 1) {
-			signup = ' <i class="fa fa-group"></i> '+probe[0].amount;
+			signup = ' <i class="fa fa-user"></i> '+probe[0].amount;
 		}
 
 		var desc = '';
@@ -242,8 +233,8 @@ function displayEvents(){
 		}
 
 		var tab = '<span class="wide-space"></span>';
-		var specs = '<i class="fa fa-clock-o fa-lg"></i> '+date+tab+
-		' <i class="fa fa-map-marker fa-lg"></i> '+location+tab+signup;
+		var specs = '<i class="fa fa-clock-o"></i> '+date+tab+
+		' <i class="fa fa-map-marker"></i> '+location+tab+signup;
 
 		eventItems += '<div class="evtItem pure-g"><div class="pure-u-1"><h2>	'+title+
 			'</h2></div><div class="pure-u-1"><h3 class="specrow">'+
