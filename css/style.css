@@ -1,5 +1,7 @@
 
-* {cursor: none;} 
+*{
+	cursor: none;
+} 
 
 body{
 	font-family: 'sans-serif';
@@ -18,29 +20,7 @@ body{
 }
 .sodexoItem{
 	text-align: center;
-	border-top: 1px solid #300;
-	margin: 2em;
-}
-.sodexoItem h2{
-	padding-top: 1em;
-	color: #fec;
-}
-
-#tikplay{
-	padding-left: 1em;
-	background : rgba(40,4,0,0.66);
-	border-radius: 20px;
-}
-
-#np_info{
-	font-size: 12pt;
-}
-#np_info pre {
-	padding-bottom: 1em;
-	margin: 0 0 0 0;
-}
-#nowplay{
-	font-size: 15pt;
+	margin: 0 0 3em 0;
 }
 
 #eventContainer {
@@ -49,52 +29,45 @@ body{
 }
 
 #busContainer{
-	width: 32%
+	width: 32%;
 	margin-left: 1%;
 	float: right;
 }
 
-#busContainer table{
-	margin-left: auto;
-	margin-right: auto;
-	text-align: right;
-}
-
-#busContainer table td{
-	padding-right: 1em;
-}
-
-#nwBusInfo, #seBusInfo{
-	font-weight: bolder;
-	font-size: 170%;
-}
-
-.busItem{
-	/*background : linear-gradient(to bottom left, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0) 55%);*/
-	/*padding-top: 0.1em;*/
-	padding-bottom: 1.5em;
-	padding-left: 1em;
-	padding-right: 1em;
-}
-
-.busDirection i{
-	color: #fa5;
-	font-size: 16pt;
-}
-
-.busDirection {
+#busTimes {
+	color: #fed;
+	font-size: 1.3em;
+	width: 90%;
 	text-align: center;
-	color: #fec;
-}
-.busItem h4 {
-	font-size: 12pt;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin-top: -1em;
 }
 
-h2 {
+#busTimes th{
+	padding-bottom: 0.66em;
+	font-size: 110%;
+}
+
+#busTimes td{
+	padding-top: 0.33em;
+	font-family: monospace;
+}
+
+
+#busTimes i{
+	color: #fa5;
+}
+
+
+#eventContainer h2 {
+	color: #fed;
 	margin: 0 0 0 0;
-	font-size: 14pt;
+	font-size: 1.3em;
+}
+
+#sodexoContainer h4 {
+	color: #def;
+	font-size: 1.2em;
+	margin-bottom: -0.33em;
 }
 
 .evtItem{
@@ -107,6 +80,9 @@ h2 {
 	position: relative;
 	top: -0.7rem;
 }
+.specrow b{
+	font-weight: normal;
+}
 
 .specrow i{
 	color: #fa5;
@@ -118,27 +94,12 @@ h2 {
 	top: -0.7rem;
 }
 
-.labeltag{
-	color: #eee;
-	font-family: "monospace";
-	font-size: 12pt;
-	text-shadow: 0 0 0.1em #000;
-	display: inline-block;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	float: right;
-	background : linear-gradient(to bottom, #351010 0%, #b60000 60%);
-	box-shadow: inset 0 0 0.3em #fcc;
-}
-
-.nethacktitle, .title {
+.title {
 	font-family: "monospace";
 	font-weight: bolder;
-	font-size: 20pt;
+	font-size: 2em;
 	text-align: center;
-	/*margin-top: 1em;*/
-	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 80%);*/
-	text-shadow: 0 1px 0.3em #ff0000;
+	text-shadow: 0 1px 0.3em #f85;
 
 }
 
@@ -146,21 +107,10 @@ h2 {
 	text-align: center;
 	font-size: 16pt;
 	line-height: 0.3em;
-	/*background : linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.25) 10%, rgba(255,255,255,0) 100%);*/
-	background: #320;
-	text-shadow: 0 0 0.66em #fa5;
+	background: #023;
+	text-shadow: 0 0 0.5em #5af;
 	box-shadow: inset 0px 0px 70px 22px black;
-	border-left: 1px solid #410;
-	/*border-bottom: 1px solid #410;*/
-	border-right: 1px solid #410;
 	border-radius: 50px;
-	/*-webkit-animation: 2s clockpulse infinite;*/
-}
-
-@-webkit-keyframes clockpulse {
-    0%   {border: 1px solid #410;}
-    15%  {border: 1px solid #a50;}
-    75% {border: 1px solid #410;}
 }
 
 #weather{
@@ -176,32 +126,6 @@ h2 {
     height: 50rem;
 	background-size: 100% 100%;
     background-image:url('../img/tiklogo.png');
-}
-
-#vituttaabulletin{
-	position: fixed;
-    bottom: 0; 
-    left: 0;
-    width: 100%; 
-    height: 10rem;
-    background : rgba(60,8,3,0.9);
-    color: #ddd;
-    padding: 1em;
-}
-#vituttaabulletin h2{
-	font-family: "monospace";
-	text-align: right;
-	padding-right: 2em; 
-	top: 40%;
-	position: relative;
-	font-weight: bolder;
-}
-#vituttaa_msg{
-	top: -3em;
-	position: relative;
-	width: 95%;
-	padding-left: 1em;
-	font-size: 125%;
 }
 
 .wide-space{
