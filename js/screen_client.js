@@ -98,7 +98,8 @@ function loadSodexo(sodexo_url){
 		for(var i=0; i < data.courses.length; i++){
 			var entry =  '<div class="sodexoItem">';
 			entry += '<h4>'+data.courses[i].title_fi+'</h4>';
-			entry += '<h4>'+data.courses[i].title_en+'</h4>';
+			if(data.courses[i].title_fi !== data.courses[i].title_en)
+				entry += '<h4>'+data.courses[i].title_en+'</h4>';
 			entry += '</div>';
 			$('#sodexoContainer').append(entry);
 		}
