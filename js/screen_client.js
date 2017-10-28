@@ -3,9 +3,6 @@
 var INTERVAL_SEC = 1000; 				//one-second interval
 var INTERVAL_MIN = 60 * 1000; 			//one-minute interval
 var INTERVAL_HOUR = 60 * INTERVAL_MIN; 	//one-hour interval
-var SODEXO = [14, 0];
-var ALVARI = [17, 15];
-var DIPOLI = [19, 0];
 
 //To prevent weird behavior, reload the whole page every now and then
 var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
