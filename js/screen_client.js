@@ -3,6 +3,9 @@
 var INTERVAL_SEC = 1000; 				//one-second interval
 var INTERVAL_MIN = 60 * 1000; 			//one-minute interval
 var INTERVAL_HOUR = 60 * INTERVAL_MIN; 	//one-hour interval
+var SODEXO = [14, 0];
+var ALVARI = [17, 15];
+var DIPOLI = [19, 0];
 
 //To prevent weird behavior, reload the whole page every now and then
 var pageReloadTimer = setInterval(function(){location.reload();}, 6 * INTERVAL_HOUR);
@@ -15,6 +18,8 @@ $(document).ready(function(){
 	var WEATHER_URL = 'http://outside.aalto.fi/data.txt';
 	var SODEXO_BASE = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
 	var SODEXO_URL = getFullSodexoUrl(SODEXO_BASE);
+	var ALVARI_URL = 'http://www.amica.fi/modules/json/json/Index?costNumber=0190&language=fi';
+	var DIPOLI_URL = 'http://www.fazerfoodco.fi/modules/json/json/Index?costNumber=3101&language=fi'
 	var HSL_URL = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
 	var TIK_EVENT_URL = 'http://tietokilta.fi/tapahtumat #pageWrapper'; //note the selector
 
@@ -27,9 +32,9 @@ $(document).ready(function(){
 	var weatherTimer = setInterval(function() { loadWeather(WEATHER_URL); }, INTERVAL_MIN * 10);
 
 	// SODEXO TODAY'S MENU
-	loadSodexo(SODEXO_URL); 
-		//todo: should this have an interval too? now relies on page refresh
-
+	loadMenu();
+	setInterval(function() { loadMenu(); }, INTERVAL_MIN * 15);
+	
 	// BUS STOPS
 	loadBusStops(HSL_URL);
 	var busTimer = setInterval(function(){ loadBusStops(HSL_URL); }, INTERVAL_MIN);
@@ -93,6 +98,28 @@ function loadWeather(url){
 /*
 	SODEXO & SUBWAY MENUS
 */
+function loadMenu(){
+	var clock = new Date();
+	var hours = clock.getHours();
+	var mins = clock.getMinutes();
+
+	var wday = clock.getDay();
+
+	if (hours < 14 && wday < 6){
+		$('#RestourantName').text("SODEXO");
+		loadSodexo(SODEXO_URL);
+	}
+	else if (hours <= 17  && mins < 15 && wday < 6){
+		$('#RestourantName').text("ALVARI");
+		loadAlvariDipoli(ALVARI_URL);
+	}
+	else if ( (hours < 19 && wday < 6) || (hours < 15) ){
+		$('#RestourantName').text("DIPOLI");
+		loadAlvariDipoli(DIPOLI_URL);
+	}
+	$('#RestourantName').text("NO OPEN RESTAURANTS ;-;");
+	console.log("none")
+}
 function loadSodexo(sodexo_url){
 	$.get(sodexo_url, function(data){
 		for(var i=0; i < data.courses.length; i++){
@@ -104,7 +131,18 @@ function loadSodexo(sodexo_url){
 			$('#sodexoContainer').append(entry);
 		}
 	});
-
+}
+function loadAlvariDipoli(food_url){
+	$.get(food_url, function(data){
+		for(var i=0; i < data.menusfordays[0].setMenus.length; i++){
+			for(var j=0; j < data.menusfordays[0].setMenus[i].Components.length; j++){
+				var entry =  '<div class="sodexoItem">';
+				entry += '<h4>'+data.menusfordays[0].setMenus[i].Components[j]+'</h4>';
+				entry += '</div>';
+				$('#sodexoContainer').append(entry);
+			}
+		}
+	});
 }
 
 
