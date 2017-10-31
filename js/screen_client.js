@@ -28,8 +28,8 @@ $(document).ready(function(){
 	loadWeather(WEATHER_URL);
 	var weatherTimer = setInterval(function() { loadWeather(WEATHER_URL); }, INTERVAL_MIN * 10);
 
-	// SODEXO TODAY'S MENU
-	loadMenu();
+	// MENU OF CLOSEST OPEN RESTOURANT
+	loadMenu(SODEXO_URL, ALVARI_URL, DIPOLI_URL);
 	setInterval(function() { loadMenu(); }, INTERVAL_MIN * 15);
 	
 	// BUS STOPS
@@ -95,7 +95,7 @@ function loadWeather(url){
 /*
 	SODEXO & SUBWAY MENUS
 */
-function loadMenu(){
+function loadMenu( SODEXO_URL, ALVARI_URL, DIPOLI_URL ){
 	var clock = new Date();
 	var hours = clock.getHours();
 	var mins = clock.getMinutes();
@@ -104,6 +104,7 @@ function loadMenu(){
 
 	if (hours < 14 && wday < 6){
 		$('#RestourantName').text("SODEXO");
+		console.log(SODEXO_URL)
 		loadSodexo(SODEXO_URL);
 	}
 	else if (hours <= 17  && mins < 15 && wday < 6){
@@ -114,8 +115,9 @@ function loadMenu(){
 		$('#RestourantName').text("DIPOLI");
 		loadAlvariDipoli(DIPOLI_URL);
 	}
-	$('#RestourantName').text("NO OPEN RESTAURANTS ;-;");
-	console.log("none")
+	else{
+		$('#RestourantName').text("NO OPEN RESTAURANTS ;-;");
+	}
 }
 function loadSodexo(sodexo_url){
 	$.get(sodexo_url, function(data){
