@@ -19,6 +19,8 @@ Example in Chromium:
 chromium-browser --disable-web-security --user-data-dir=<dir> --start-fullscreen index.html
 ```
 
+For firefox there is cross-origin plugins availeable.
+
 The user-data-dir should be a new Chrome profile folder that is preferrably not used for anything else.
 
 ### License

@@ -131,12 +131,13 @@ function loadSodexo(sodexo_url){
 		}
 	});
 }
+
 function loadAlvariDipoli(food_url){
 	$.get(food_url, function(data){
-		for(var i=0; i < data.menusfordays[0].setMenus.length; i++){
-			for(var j=0; j < data.menusfordays[0].setMenus[i].Components.length; j++){
+		for(var i=0; i < data.MenusForDays[0].SetMenus.length; i++){
+			for(var j=0; j < data.MenusForDays[0].SetMenus[i].Components.length; j++){
 				var entry =  '<div class="sodexoItem">';
-				entry += '<h4>'+data.menusfordays[0].setMenus[i].Components[j]+'</h4>';
+				entry += '<h4>'+data.MenusForDays[0].SetMenus[i].Components[j]+'</h4>';
 				entry += '</div>';
 				$('#sodexoContainer').append(entry);
 			}
