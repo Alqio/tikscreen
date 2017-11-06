@@ -107,7 +107,7 @@ function loadMenu( SODEXO_URL, ALVARI_URL, DIPOLI_URL ){
 		console.log(SODEXO_URL)
 		loadSodexo(SODEXO_URL);
 	}
-	else if (hours <= 17  && mins < 15 && wday < 6){
+	else if ( ( hours < 17 || (hours <= 17  && mins < 15) ) && wday < 6){
 		$('#RestourantName').text("ALVARI");
 		loadAlvariDipoli(ALVARI_URL);
 	}
