@@ -15,6 +15,8 @@ $(document).ready(function(){
 	var WEATHER_URL = 'http://outside.aalto.fi/data.txt';
 	var SODEXO_BASE = 'http://www.sodexo.fi/ruokalistat/output/daily_json/142/';
 	var SODEXO_URL = getFullSodexoUrl(SODEXO_BASE);
+	var ALVARI_URL = 'http://www.amica.fi/modules/json/json/Index?costNumber=0190&language=fi';
+	var DIPOLI_URL = 'http://www.fazerfoodco.fi/modules/json/json/Index?costNumber=3101&language=fi'
 	var HSL_URL = 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql';
 	var TIK_EVENT_URL = 'http://tietokilta.fi/tapahtumat #pageWrapper'; //note the selector
 
@@ -26,10 +28,10 @@ $(document).ready(function(){
 	loadWeather(WEATHER_URL);
 	var weatherTimer = setInterval(function() { loadWeather(WEATHER_URL); }, INTERVAL_MIN * 10);
 
-	// SODEXO TODAY'S MENU
-	loadSodexo(SODEXO_URL); 
-		//todo: should this have an interval too? now relies on page refresh
-
+	// MENU OF CLOSEST OPEN RESTOURANT
+	loadMenu(SODEXO_URL, ALVARI_URL, DIPOLI_URL);
+	setInterval(function() { loadMenu(SODEXO_URL, ALVARI_URL, DIPOLI_URL); }, INTERVAL_MIN * 15);
+	
 	// BUS STOPS
 	loadBusStops(HSL_URL);
 	var busTimer = setInterval(function(){ loadBusStops(HSL_URL); }, INTERVAL_MIN);
@@ -93,6 +95,31 @@ function loadWeather(url){
 /*
 	SODEXO & SUBWAY MENUS
 */
+function loadMenu( SODEXO_URL, ALVARI_URL, DIPOLI_URL ){
+	var clock = new Date();
+	var hours = clock.getHours();
+	var mins = clock.getMinutes();
+
+	var wday = clock.getDay();
+	var menuText="";
+	if (hours < 15 && wday < 6){
+		menuText = "SODEXO";
+		loadSodexo(SODEXO_URL);
+	}
+	else if ( ( hours < 17 || (hours <= 17  && mins < 15) ) && wday < 6){
+		menuText = "ALVARI";
+		loadAlvariDipoli(ALVARI_URL);
+	}
+	else if ( (hours < 19 && wday < 6) || (hours < 15) ){
+		menuText = "DIPOLI";
+		loadAlvariDipoli(DIPOLI_URL);
+	}
+	else{
+		menuText = "NO OPEN RESTAURANTS ;-;";
+	}
+	$('#RestourantName').text(menuText);
+
+}
 function loadSodexo(sodexo_url){
 	$.get(sodexo_url, function(data){
 		for(var i=0; i < data.courses.length; i++){
@@ -104,7 +131,19 @@ function loadSodexo(sodexo_url){
 			$('#sodexoContainer').append(entry);
 		}
 	});
+}
 
+function loadAlvariDipoli(food_url){
+	$.get(food_url, function(data){
+		for(var i=0; i < data.MenusForDays[0].SetMenus.length; i++){
+			for(var j=0; j < data.MenusForDays[0].SetMenus[i].Components.length; j++){
+				var entry =  '<div class="sodexoItem">';
+				entry += '<h4>'+data.MenusForDays[0].SetMenus[i].Components[j]+'</h4>';
+				entry += '</div>';
+				$('#sodexoContainer').append(entry);
+			}
+		}
+	});
 }
 
 
@@ -118,16 +157,18 @@ function loadBusStops(hsl_url){
 	var s11 = 'HSL:2222211'; //Alvar Aallon puisto, Laituri 11 (Helsingistä)
 	var s12 = 'HSL:2222212'; //Kemisti, Laituri 12
 	var s13 = 'HSL:2222234'; //Kemisti, Laituri 13
+	var mterm = 'HSL:2000102'; //Aalto-yliopiston metroasema, Koko terminaali
 
 	var departures = [];
 
 	//Fetch & parse stoptimes from HSL, then sort departures and display
-	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13)).done(function(d1,d2,d3,d4){
+	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13), fetchStop(mterm)).done(function(d1,d2,d3,d4,d5){
 
 	    parseStopData(d1[0].data);
 	    parseStopData(d2[0].data);
 	    parseStopData(d3[0].data);
-	    parseStopData(d4[0].data);
+		parseStopData(d4[0].data);
+		parseStopData(d5[0].data);
 
 	    departures.sort(function (depA, depB){
 			return depA.scheduledArrival - depB.scheduledArrival;
@@ -165,13 +206,15 @@ function loadBusStops(hsl_url){
 	function displayStopTimes(deps){
 		$('.busrow').remove();
 		for(var i = 0; i < deps.length; i++){
-			var row = '<tr class="busrow">'
-					+'<td><b>'+convertSecondsToClock(deps[i].scheduledArrival)+'</b></td>'
-					+'<td><b>'+deps[i].trip.route.shortName+'</b></td>'
-					+'<td>'+deps[i].trip.tripHeadsign+'</td>'
-					+'<td>'+deps[i].platform+'</td>'
-					+ '</tr>';
-			$('#busTimes').append(row);
+			if(deps[i].trip.tripHeadsign != 'Otaniemi'){
+				var row = '<tr class="busrow">'
+						+'<td><b>'+convertSecondsToClock(deps[i].scheduledArrival)+'</b></td>'
+						+'<td><b>'+deps[i].trip.route.shortName+'</b></td>'
+						+'<td>'+deps[i].trip.tripHeadsign+'</td>'
+						+'<td>'+deps[i].platform+'</td>'
+						+ '</tr>';
+				$('#busTimes').append(row);
+			}
 		}
 	}
 
