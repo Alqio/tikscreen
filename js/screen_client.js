@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 	// MENU OF CLOSEST OPEN RESTOURANT
 	loadMenu(SODEXO_URL, ALVARI_URL, DIPOLI_URL);
-	setInterval(function() { loadMenu(); }, INTERVAL_MIN * 15);
+	setInterval(function() { loadMenu(SODEXO_URL, ALVARI_URL, DIPOLI_URL); }, INTERVAL_MIN * 15);
 	
 	// BUS STOPS
 	loadBusStops(HSL_URL);
@@ -101,23 +101,24 @@ function loadMenu( SODEXO_URL, ALVARI_URL, DIPOLI_URL ){
 	var mins = clock.getMinutes();
 
 	var wday = clock.getDay();
-
-	if (hours < 14 && wday < 6){
-		$('#RestourantName').text("SODEXO");
-		console.log(SODEXO_URL)
+	var menuText="";
+	if (hours < 15 && wday < 6){
+		menuText = "SODEXO";
 		loadSodexo(SODEXO_URL);
 	}
 	else if ( ( hours < 17 || (hours <= 17  && mins < 15) ) && wday < 6){
-		$('#RestourantName').text("ALVARI");
+		menuText = "ALVARI";
 		loadAlvariDipoli(ALVARI_URL);
 	}
 	else if ( (hours < 19 && wday < 6) || (hours < 15) ){
-		$('#RestourantName').text("DIPOLI");
+		menuText = "DIPOLI";
 		loadAlvariDipoli(DIPOLI_URL);
 	}
 	else{
-		$('#RestourantName').text("NO OPEN RESTAURANTS ;-;");
+		menuText = "NO OPEN RESTAURANTS ;-;";
 	}
+	$('#RestourantName').text(menuText);
+
 }
 function loadSodexo(sodexo_url){
 	$.get(sodexo_url, function(data){
@@ -203,13 +204,15 @@ function loadBusStops(hsl_url){
 	function displayStopTimes(deps){
 		$('.busrow').remove();
 		for(var i = 0; i < deps.length; i++){
-			var row = '<tr class="busrow">'
-					+'<td><b>'+convertSecondsToClock(deps[i].scheduledArrival)+'</b></td>'
-					+'<td><b>'+deps[i].trip.route.shortName+'</b></td>'
-					+'<td>'+deps[i].trip.tripHeadsign+'</td>'
-					+'<td>'+deps[i].platform+'</td>'
-					+ '</tr>';
-			$('#busTimes').append(row);
+			if(deps[i].trip.tripHeadsign != 'Otaniemi'){
+				var row = '<tr class="busrow">'
+						+'<td><b>'+convertSecondsToClock(deps[i].scheduledArrival)+'</b></td>'
+						+'<td><b>'+deps[i].trip.route.shortName+'</b></td>'
+						+'<td>'+deps[i].trip.tripHeadsign+'</td>'
+						+'<td>'+deps[i].platform+'</td>'
+						+ '</tr>';
+				$('#busTimes').append(row);
+			}
 		}
 	}
 
