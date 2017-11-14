@@ -3,6 +3,9 @@ Tikscreen
 
 Infoscreen for Tietokilta (CS Guild) guild room.
 
+*UPDATE 2017-09-28:*
+Added merto terminal to bus stops list
+
 *UPDATE 2016-12-21:* 
 Switched to the new HSL GraphQL API, also UI updates & some refactoring
 

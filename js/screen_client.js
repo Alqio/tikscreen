@@ -157,16 +157,18 @@ function loadBusStops(hsl_url){
 	var s11 = 'HSL:2222211'; //Alvar Aallon puisto, Laituri 11 (Helsingistä)
 	var s12 = 'HSL:2222212'; //Kemisti, Laituri 12
 	var s13 = 'HSL:2222234'; //Kemisti, Laituri 13
+	var mterm = 'HSL:2000102'; //Aalto-yliopiston metroasema, Koko terminaali
 
 	var departures = [];
 
 	//Fetch & parse stoptimes from HSL, then sort departures and display
-	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13)).done(function(d1,d2,d3,d4){
+	$.when(fetchStop(s10), fetchStop(s11), fetchStop(s12), fetchStop(s13), fetchStop(mterm)).done(function(d1,d2,d3,d4,d5){
 
 	    parseStopData(d1[0].data);
 	    parseStopData(d2[0].data);
 	    parseStopData(d3[0].data);
-	    parseStopData(d4[0].data);
+		parseStopData(d4[0].data);
+		parseStopData(d5[0].data);
 
 	    departures.sort(function (depA, depB){
 			return depA.scheduledArrival - depB.scheduledArrival;
